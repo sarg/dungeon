@@ -1,5 +1,6 @@
 package ru.org.sarg.dungeon.game;
 
+import ru.org.sarg.dungeon.Dungeon;
 import ru.org.sarg.dungeon.render.IDisplay;
 
 import java.awt.event.KeyEvent;
@@ -27,8 +28,8 @@ public class MenuActivity extends Activity {
             }
         };
 
-        current.choices.add(new Menu.Option("New", () -> System.out.println("hji")));
-        current.choices.add(new Menu.Option("Quit", () -> System.out.println("hji")));
+        current.choices.add(new Menu.Option("New", () -> Dungeon.INSTANCE.setActivity(new CharacterCreateActivity(display))));
+        current.choices.add(new Menu.Option("Quit", () -> Dungeon.INSTANCE.quit()));
         index = 0;
     }
 
@@ -69,14 +70,13 @@ public class MenuActivity extends Activity {
         display.rect(x, y, x + MENU_WIDTH + 1, y + 1 + current.choices.size());
 
         x++;
-        y += current.choices.size() + 1;
 
         Iterator<Menu.Option> menuIterator = current.choices.iterator();
         while (menuIterator.hasNext()) {
             Menu.Option option = menuIterator.next();
             boolean selected = idx++ == index;
 
-            display.text(x, --y, null, selected ? "* " + option.title : option.title);
+            display.text(x, ++y, null, String.format("%3s%s", selected ? "* " : "", option.title));
         }
     }
 }

@@ -1,14 +1,22 @@
 package ru.org.sarg.dungeon;
 
 import ru.org.sarg.dungeon.game.Activity;
-import ru.org.sarg.dungeon.game.GameActivity;
+import ru.org.sarg.dungeon.game.FpsCounter;
+import ru.org.sarg.dungeon.game.MenuActivity;
 import ru.org.sarg.dungeon.render.CliDisplay;
 import ru.org.sarg.dungeon.render.IDisplay;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 public class Dungeon {
+    public static Dungeon INSTANCE = new Dungeon();
+
+    public Activity activity;
+    private static boolean quit = false;
+
+    private Dungeon() {
+    }
+
     // stty to disable buffered input
     // not portable, consider using JLine
     private static boolean initTerm() {
@@ -35,28 +43,34 @@ public class Dungeon {
         return key;
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public void setActivity(Activity a) {
+        this.activity = a;
+        a.start();
+    }
+
+    public void quit() {
+        quit = true;
+    }
+
+    public static void main(String[] args) throws IOException {
         initTerm();
         IDisplay display = new CliDisplay(80, 40);
-        Activity gameActivity = new GameActivity(display);
-        gameActivity.start();
-        boolean quit = false;
 
-        long lastFrame;
-        int FPS = 10;
+        Dungeon.INSTANCE.setActivity(new MenuActivity(display));
+
+        FpsCounter fpsCounter = new FpsCounter(10);
         while (!quit) {
-            gameActivity.draw();
+            Activity a = Dungeon.INSTANCE.activity;
+            a.draw();
+
             display.flush();
-            lastFrame = System.nanoTime();
+            fpsCounter.onFrame();
 
             int key = readKey();
             if (key > 0)
-                gameActivity.onKeyDown(key);
+                a.onKeyDown(key);
 
-            long sleep = TimeUnit.SECONDS.toNanos(1) / FPS - (System.nanoTime() - lastFrame);
-            if (sleep > 0)
-                Thread.sleep(TimeUnit.NANOSECONDS.toMillis(sleep));
-
+            fpsCounter.sleepUntilNextFrame();
             display.clear();
         }
     }

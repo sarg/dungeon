@@ -4,9 +4,12 @@ import ru.org.sarg.dungeon.map.LevelMap;
 import ru.org.sarg.dungeon.render.IDisplay;
 
 public class GameActivity extends Activity {
+    public static GameActivity INSTANCE;
+
     private static final double MAP_SIZE_RATIO = 0.8;
     MapWindow mapWindow;
     TextWindow stats;
+    Player player;
 
     public GameActivity(IDisplay display) {
         super(display);

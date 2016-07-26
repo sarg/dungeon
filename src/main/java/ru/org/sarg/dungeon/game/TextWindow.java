@@ -17,6 +17,14 @@ public class TextWindow extends IWindow {
         this.text = new StringBuffer(text);
     }
 
+    public void append(String text) {
+        this.text.append(text);
+    }
+
+    public StringBuffer deleteLast(int i) {
+        return text.delete(text.length() - i, text.length());
+    }
+
     public void clear() {
         text = new StringBuffer();
     }
@@ -30,18 +38,19 @@ public class TextWindow extends IWindow {
 
         for (int i = 0; i<text.length(); i++) {
             char c = text.charAt(i);
-            if (c != '\n') {
-                display.draw(windowX + x++, windowY + y, c);
-            } else {
+            if (c == '\n') {
                 y++;
+                x = BORDER + PADDING;
+            } else {
+                display.draw(windowX + x++, windowY + y, c);
             }
 
-            if (x >= width) {
+            if (x >= width - BORDER - PADDING) {
                 x = BORDER + PADDING;
                 y++;
             }
 
-            if (y >= height)
+            if (y >= height - BORDER - PADDING)
                 break;
         }
     }

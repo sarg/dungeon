@@ -13,13 +13,33 @@ public class LevelMap {
         terrain = new byte[width * height];
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 
     public static LevelMap RANDOM() {
-        LevelMap map = new LevelMap(512, 512);
+        LevelMap map = new LevelMap(100, 100);
         for (int i = 0; i < map.terrain.length; i++) {
             map.terrain[i] = (byte) (Math.random() * 10 > 5 ? 1 : 0);
         }
+
+        t(map, 0);
+        t(map, 1);
+        t(map, map.height-1);
+        t(map, map.height-2);
+
         return map;
+    }
+
+    private static void t(LevelMap map, int row) {
+        map.terrain[0 + row * map.width] = 1;
+        map.terrain[1 + row * map.width] = 1;
+        map.terrain[map.width - 2 + row * map.width] = 1;
+        map.terrain[map.width - 1 + row * map.width] = 1;
     }
 
     public class MapView {
@@ -41,7 +61,7 @@ public class LevelMap {
         }
 
         public byte get(int x, int y) {
-            return terrain[(y + vw) * width + vx + x];
+            return terrain[(y + vy) * width + vx + x];
         }
     }
 

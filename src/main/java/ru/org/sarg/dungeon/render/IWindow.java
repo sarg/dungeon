@@ -6,7 +6,7 @@ public abstract class IWindow {
     public int windowX;
     public int windowY;
 
-    public IWindow(int width, int height, int windowX, int windowY) {
+    public IWindow(int windowX, int windowY, int width, int height) {
         this.width = width;
         this.height = height;
         this.windowX = windowX;
@@ -15,5 +15,13 @@ public abstract class IWindow {
 
     public void draw(IDisplay display) {
         display.rect(windowX, windowY, windowX + width - 1, windowY + height - 1);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

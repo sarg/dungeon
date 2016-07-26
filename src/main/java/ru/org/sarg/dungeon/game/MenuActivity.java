@@ -6,10 +6,9 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Iterator;
 
-class MenuActivity {
+public class MenuActivity extends Activity {
     private static final int MENU_WIDTH = 20;
     Menu current;
-    IDisplay display;
     int index;
 
     /*
@@ -19,7 +18,8 @@ class MenuActivity {
      */
 
     public MenuActivity(IDisplay display) {
-        this.display = display;
+        super(display);
+
         current = new Menu(null) {
             @Override
             public Menu next() {
@@ -32,40 +32,37 @@ class MenuActivity {
         index = 0;
     }
 
-    public void execute() {
-        boolean selected = false;
-        while (!selected) {
-            draw();
-            int key = readKey();
+    public void onKeyDown(int key) {
+        switch (key) {
+            case 'k':
+                index = (index + current.size() - 1) % current.size();
+                break;
 
-            switch (key) {
-                case 'k':
-                    index = (index + current.size() - 1) % current.size();
-                    break;
+            case 'j':
+                index = (index + 1) % current.size();
+                break;
 
-                case 'j':
-                    index = (index + 1) % current.size();
-                    break;
+            case 'q':
+                if (current.parent == null)
+                    return;
+                break;
 
-                case 'q':
-                    if (current.parent == null)
-                        return;
-                    break;
-
-                case KeyEvent.VK_ENTER:
-                    Menu next = current.next();
-                    if (next != null)
-                        current = next;
-                    else
-                        current.choices.get(index).action.run();
-                    break;
-            }
+            case KeyEvent.VK_ENTER:
+                Menu next = current.next();
+                if (next != null)
+                    current = next;
+                else
+                    current.choices.get(index).action.run();
+                break;
         }
     }
 
-    private void draw() {
-        display.clear();
+    @Override
+    public void start() {
+    }
 
+    @Override
+    public void draw() {
         int idx = 0;
         int x = (display.getWidth() - 2 - MENU_WIDTH) / 2;
         int y = (display.getHeight() - 2 - current.choices.size()) / 2;
@@ -81,16 +78,5 @@ class MenuActivity {
 
             display.text(x, --y, null, selected ? "* " + option.title : option.title);
         }
-        display.flush();
-    }
-
-    private int readKey() {
-        int key;
-        try {
-            key = System.in.read();
-        } catch (IOException e) {
-            throw new RuntimeException("Unhandled exception", e);
-        }
-        return key;
     }
 }

@@ -12,13 +12,14 @@ public class CliDisplay implements IDisplay {
     private final int width;
 
     private char[] buffer;
+    private long lastCrc;
 
     public CliDisplay(int width, int height) {
         this.height = height;
         this.width = width;
         this.buffer = new char[width * height];
 
-        Arrays.fill(buffer, '.');
+        clear();
     }
 
     public int getWidth() {
@@ -97,6 +98,12 @@ public class CliDisplay implements IDisplay {
     }
 
     public void flush() {
+        int newCrc = Arrays.hashCode(buffer);
+        if (newCrc == lastCrc)
+            return; // optimization, no need to redraw as nothing changed
+
+        lastCrc = newCrc;
+
         System.out.print(ANSI_CLEAR_SCREEN);
         System.out.print(ANSI_MOVE_TOP_LEFT);
 

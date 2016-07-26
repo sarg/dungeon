@@ -53,11 +53,11 @@ public class Dungeon {
             if (key > 0)
                 gameActivity.onKeyDown(key);
 
-            display.clear();
-
             long sleep = TimeUnit.SECONDS.toNanos(1) / FPS - (System.nanoTime() - lastFrame);
             if (sleep > 0)
                 Thread.sleep(TimeUnit.NANOSECONDS.toMillis(sleep));
+
+            display.clear();
         }
     }
 }

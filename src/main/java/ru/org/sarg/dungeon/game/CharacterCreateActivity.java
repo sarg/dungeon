@@ -85,6 +85,10 @@ public class CharacterCreateActivity extends Activity {
         public String value() {
             return sb.toString();
         }
+
+        public void clear() {
+            sb = new StringBuilder();
+        }
     }
 
     public CharacterCreateActivity(IDisplay display) {
@@ -112,6 +116,9 @@ public class CharacterCreateActivity extends Activity {
 
     private void name() {
         input = new Input(10, Pattern.compile("[a-z]"), () -> {
+            if (input.value().isEmpty())
+                return;
+
             player.name(input.value());
             dialog.append("\n");
             input = null;
@@ -120,9 +127,22 @@ public class CharacterCreateActivity extends Activity {
 
     private void race() {
         input = new Input(1, Pattern.compile("[a-z]"), () -> {
-            player.race(Player.Race.BANANA_GUARD);
+            if (input.value().isEmpty())
+                return;
+
+            for (Player.Race race : Player.Race.values()) {
+                if (race.name().startsWith(input.value().toUpperCase())) {
+                    player.race(race);
+                }
+            }
+
             dialog.append("\n");
-            input = null;
+            if (player.race != null) {
+                input = null;
+            } else {
+                dialog.append("what?\n");
+                input.clear();
+            }
         });
     }
 

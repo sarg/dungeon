@@ -7,9 +7,16 @@ import java.io.IOException;
 import java.util.Iterator;
 
 class MenuHandler {
+    private static final int MENU_WIDTH = 20;
     Menu current;
     IDisplay display;
     int index;
+
+    /*
+    New -> Character creation dialog -> Game
+    Load -> List of saves -> Select -> Game
+    Quit -> clean up and exit
+     */
 
     public MenuHandler(IDisplay display) {
         this.display = display;
@@ -30,7 +37,6 @@ class MenuHandler {
         while (!selected) {
             draw();
             int key = readKey();
-            System.out.println(key);
 
             switch (key) {
                 case 'k':
@@ -61,16 +67,20 @@ class MenuHandler {
         display.clear();
 
         int idx = 0;
+        int x = (display.getWidth() - 2 - MENU_WIDTH) / 2;
+        int y = (display.getHeight() - 2 - current.choices.size()) / 2;
+        display.rect(x, y, x + MENU_WIDTH + 1, y + 1 + current.choices.size());
+
+        x++;
+
         Iterator<Menu.Option> menuIterator = current.choices.iterator();
         while (menuIterator.hasNext()) {
             Menu.Option option = menuIterator.next();
             boolean selected = idx++ == index;
 
-            if (selected)
-                System.out.print("* ");
-
-            System.out.println(option.title);
+            display.text(x, ++y, null, selected ? "* " + option.title : option.title);
         }
+        display.flush();
     }
 
     private int readKey() {

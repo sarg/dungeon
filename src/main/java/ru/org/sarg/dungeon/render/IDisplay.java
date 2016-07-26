@@ -1,6 +1,8 @@
 package ru.org.sarg.dungeon.render;
 
 public interface IDisplay {
+    void flush();
+
     enum Color {
         RED, WHITE, BLUE;
     }

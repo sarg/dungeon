@@ -109,5 +109,6 @@ public class CliDisplay implements IDisplay {
     }
 
     public void clear() {
+        Arrays.fill(buffer, ' ');
     }
 }

@@ -49,10 +49,10 @@ public class GameActivity extends Activity {
         stats = new TextWindow(0, mapWindow.getHeight(), display.getWidth(),
                 display.getHeight() - mapWindow.getHeight() - 1);
 
-        stats.setText("test");
-
+        stats.setText(String.format("%s %s\nExperience: %07d", player.race.name(), player.name, player.exp));
     }
 
-    public void quit() {
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }

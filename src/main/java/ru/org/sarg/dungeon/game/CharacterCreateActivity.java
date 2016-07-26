@@ -148,7 +148,8 @@ public class CharacterCreateActivity extends Activity {
 
     private void enter() {
         input = new Input(0, Pattern.compile(""), () -> {
-            Dungeon.INSTANCE.setActivity(new GameActivity(display));
+            GameActivity.INSTANCE.setPlayer(player.build());
+            Dungeon.INSTANCE.setActivity(GameActivity.INSTANCE);
         });
     }
 

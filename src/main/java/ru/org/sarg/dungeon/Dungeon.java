@@ -2,6 +2,7 @@ package ru.org.sarg.dungeon;
 
 import ru.org.sarg.dungeon.game.Activity;
 import ru.org.sarg.dungeon.game.FpsCounter;
+import ru.org.sarg.dungeon.game.GameActivity;
 import ru.org.sarg.dungeon.game.MenuActivity;
 import ru.org.sarg.dungeon.render.CliDisplay;
 import ru.org.sarg.dungeon.render.IDisplay;
@@ -56,6 +57,7 @@ public class Dungeon {
         initTerm();
         IDisplay display = new CliDisplay(80, 40);
 
+        GameActivity.INSTANCE = new GameActivity(display);
         Dungeon.INSTANCE.setActivity(new MenuActivity(display));
 
         FpsCounter fpsCounter = new FpsCounter(10);

@@ -26,6 +26,7 @@ public class Player {
 
     final String name;
     final Race race;
+    public int exp;
 
     public Player(String name, Race race) {
         this.name = name;

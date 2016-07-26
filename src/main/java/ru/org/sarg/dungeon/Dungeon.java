@@ -6,6 +6,7 @@ import ru.org.sarg.dungeon.render.CliDisplay;
 import ru.org.sarg.dungeon.render.IDisplay;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class Dungeon {
     // stty to disable buffered input
@@ -23,29 +24,40 @@ public class Dungeon {
 
 
     private static int readKey() {
-        int key;
+        int key = 0;
         try {
-            key = System.in.read();
+            int cnt = System.in.available();
+            if (cnt > 0)
+                key = System.in.read();
         } catch (IOException e) {
             throw new RuntimeException("Unhandled exception", e);
         }
         return key;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         initTerm();
         IDisplay display = new CliDisplay(80, 40);
         Activity gameActivity = new GameActivity(display);
         gameActivity.start();
         boolean quit = false;
 
+        long lastFrame;
+        int FPS = 10;
         while (!quit) {
             gameActivity.draw();
             display.flush();
+            lastFrame = System.nanoTime();
 
             int key = readKey();
-            gameActivity.onKeyDown(key);
+            if (key > 0)
+                gameActivity.onKeyDown(key);
+
             display.clear();
+
+            long sleep = TimeUnit.SECONDS.toNanos(1) / FPS - (System.nanoTime() - lastFrame);
+            if (sleep > 0)
+                Thread.sleep(TimeUnit.NANOSECONDS.toMillis(sleep));
         }
     }
 }

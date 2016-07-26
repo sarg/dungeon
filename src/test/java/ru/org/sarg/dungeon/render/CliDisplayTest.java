@@ -1,6 +1,8 @@
 package ru.org.sarg.dungeon.render;
 
 import org.junit.Test;
+import ru.org.sarg.dungeon.game.MapWindow;
+import ru.org.sarg.dungeon.map.LevelMap;
 
 import static org.junit.Assert.*;
 
@@ -19,8 +21,21 @@ public class CliDisplayTest {
     public void testAll() {
         CliDisplay ds = new CliDisplay(20, 20);
 
+        ds.draw(3, 3, 'О');
         ds.draw(3, 5, 'О');
         ds.rect(0, 0, ds.getWidth() - 1, ds.getHeight() - 1);
+        ds.flush();
+    }
+
+    @Test
+    public void testMap() {
+        CliDisplay ds = new CliDisplay(20, 20);
+        LevelMap map = LevelMap.RANDOM();
+
+        MapWindow mapWindow = new MapWindow(0, 0, 15, 15);
+        mapWindow.setMap(map);
+
+        mapWindow.draw(ds);
         ds.flush();
     }
 

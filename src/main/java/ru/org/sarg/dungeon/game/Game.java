@@ -11,7 +11,7 @@ public class Game {
         // not portable, consider using JLine
         if (initTerm()) {
             IDisplay display = new CliDisplay(80, 25);
-            new MenuHandler(display).execute();
+            new MenuActivity(display).execute();
         }
     }
 

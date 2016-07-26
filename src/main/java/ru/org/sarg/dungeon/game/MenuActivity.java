@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Iterator;
 
-class MenuHandler {
+class MenuActivity {
     private static final int MENU_WIDTH = 20;
     Menu current;
     IDisplay display;
@@ -18,7 +18,7 @@ class MenuHandler {
     Quit -> clean up and exit
      */
 
-    public MenuHandler(IDisplay display) {
+    public MenuActivity(IDisplay display) {
         this.display = display;
         current = new Menu(null) {
             @Override
@@ -72,13 +72,14 @@ class MenuHandler {
         display.rect(x, y, x + MENU_WIDTH + 1, y + 1 + current.choices.size());
 
         x++;
+        y += current.choices.size() + 1;
 
         Iterator<Menu.Option> menuIterator = current.choices.iterator();
         while (menuIterator.hasNext()) {
             Menu.Option option = menuIterator.next();
             boolean selected = idx++ == index;
 
-            display.text(x, ++y, null, selected ? "* " + option.title : option.title);
+            display.text(x, --y, null, selected ? "* " + option.title : option.title);
         }
         display.flush();
     }

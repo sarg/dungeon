@@ -15,23 +15,28 @@ public class GameActivity extends Activity {
         super(display);
     }
 
+    private void move(Direction d) {
+        player.move(d);
+        mapWindow.adjustForPlayer(player);
+    }
+
     @Override
     public void onKeyDown(int key) {
         switch (key) {
             case 'j':
-                mapWindow.scroll(MapWindow.Scroll.DOWN);
+                move(Direction.DOWN);
                 break;
 
             case 'k':
-                mapWindow.scroll(MapWindow.Scroll.UP);
+                move(Direction.UP);
                 break;
 
             case 'h':
-                mapWindow.scroll(MapWindow.Scroll.LEFT);
+                move(Direction.LEFT);
                 break;
 
             case 'l':
-                mapWindow.scroll(MapWindow.Scroll.RIGHT);
+                move(Direction.RIGHT);
                 break;
         }
     }
@@ -44,7 +49,9 @@ public class GameActivity extends Activity {
 
     public void start() {
         mapWindow = new MapWindow(0, 0, (int)(display.getWidth() * 0.8), (int)(Math.round(display.getHeight() * MAP_SIZE_RATIO)));
-        mapWindow.setMap(LevelMap.RANDOM());
+        LevelMap map = LevelMap.RANDOM();
+        map.getObjects().add(player);
+        mapWindow.setMap(map);
 
         stats = new TextWindow(0, mapWindow.getHeight(), display.getWidth(),
                 display.getHeight() - mapWindow.getHeight() - 1);

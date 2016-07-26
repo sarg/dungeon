@@ -10,6 +10,7 @@ import ru.org.sarg.dungeon.render.IDisplay;
 import java.io.IOException;
 
 public class Dungeon {
+    public static final boolean DEBUG = true;
     public static Dungeon INSTANCE = new Dungeon();
 
     public Activity activity;

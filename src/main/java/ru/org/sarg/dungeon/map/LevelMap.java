@@ -1,16 +1,23 @@
 package ru.org.sarg.dungeon.map;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class LevelMap {
     final int width;
     final int height;
 
     byte[] terrain;
+    List<GameObject> objects;
 
     public LevelMap(int width, int height) {
         this.width = width;
         this.height = height;
 
         terrain = new byte[width * height];
+        objects = new ArrayList<>();
     }
 
     public int getWidth() {
@@ -19,6 +26,10 @@ public class LevelMap {
 
     public int getHeight() {
         return height;
+    }
+
+    public List<GameObject> getObjects() {
+        return objects;
     }
 
     public static LevelMap RANDOM() {
@@ -45,11 +56,34 @@ public class LevelMap {
     public class MapView {
         final int vx, vy, vw, vh;
 
+        private boolean inView(GameObject obj) {
+            int x = obj.getX();
+            int y = obj.getY();
+
+            if (x >= vx && x < vx + vw) {
+                if (y >= vy && y < vy + vw) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private MapView(int vx, int vy, int vw, int vh) {
             this.vx = vx;
             this.vy = vy;
             this.vw = vw;
             this.vh = vh;
+
+            objectsView = objects.stream().filter(this::inView)
+                    .collect(Collectors.toList());
+        }
+
+        public int viewX(int realX) {
+            return realX - vx;
+        }
+
+        public int viewY(int realY) {
+            return realY - vy;
         }
 
         public int width() {
@@ -58,6 +92,12 @@ public class LevelMap {
 
         public int height() {
             return vh;
+        }
+
+        private Collection<GameObject> objectsView;
+
+        public Collection<GameObject> getObjects() {
+            return objectsView;
         }
 
         public byte get(int x, int y) {

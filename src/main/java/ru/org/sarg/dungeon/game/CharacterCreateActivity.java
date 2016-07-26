@@ -34,13 +34,13 @@ public class CharacterCreateActivity extends Activity {
             "%enter"
     );
 
-    int idx = 0;
+    int idx;
 
     private TextWindow dialog;
     private FpsCounter fpsCounter;
     private Input input;
 
-    private Player.Builder player = new Player.Builder();
+    private Player.Builder player;
 
     private static class Input {
         final int maxLength;
@@ -112,6 +112,14 @@ public class CharacterCreateActivity extends Activity {
     public void start() {
         dialog = new TextWindow(0, 0, display.getWidth(), display.getHeight());
         fpsCounter = new FpsCounter(0.5);
+        player = new Player.Builder();
+        idx = 0;
+
+        if (Dungeon.DEBUG) {
+            player.name("test");
+            player.race(Player.Race.BANANA_GUARD);
+            gogogo();
+        }
     }
 
     private void name() {
@@ -146,11 +154,13 @@ public class CharacterCreateActivity extends Activity {
         });
     }
 
+    private void gogogo() {
+        GameActivity.INSTANCE.setPlayer(player.build());
+        Dungeon.INSTANCE.setActivity(GameActivity.INSTANCE);
+    }
+
     private void enter() {
-        input = new Input(0, Pattern.compile(""), () -> {
-            GameActivity.INSTANCE.setPlayer(player.build());
-            Dungeon.INSTANCE.setActivity(GameActivity.INSTANCE);
-        });
+        input = new Input(0, Pattern.compile(""), this::gogogo);
     }
 
     @Override

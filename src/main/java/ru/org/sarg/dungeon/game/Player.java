@@ -1,6 +1,13 @@
 package ru.org.sarg.dungeon.game;
 
-public class Player {
+import ru.org.sarg.dungeon.map.GameObject;
+
+public class Player extends GameObject {
+    public void move(Direction dir) {
+        x += dir.dx;
+        y += dir.dy;
+    }
+
     enum Race {
         BANANA_GUARD,
         DEMON,
@@ -29,6 +36,7 @@ public class Player {
     public int exp;
 
     public Player(String name, Race race) {
+        super('P');
         this.name = name;
         this.race = race;
     }

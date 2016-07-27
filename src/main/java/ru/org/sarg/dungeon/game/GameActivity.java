@@ -10,6 +10,7 @@ public class GameActivity extends Activity {
 
     private static final double MAP_SIZE_RATIO = 0.8;
     MapWindow mapWindow;
+    LevelMap map;
     TextWindow stats;
     PauseMenuActivity pauseMenuActivity;
     Player player;
@@ -19,8 +20,10 @@ public class GameActivity extends Activity {
     }
 
     private void move(Direction d) {
-        player.move(d);
-        mapWindow.adjustForPlayer(player);
+        if (map.canMove(player.getX(), player.getY(), d)) {
+            player.move(d);
+            mapWindow.adjustForPlayer(player);
+        }
     }
 
     public void setPaused(boolean p) {
@@ -80,7 +83,7 @@ public class GameActivity extends Activity {
 
     public void start() {
         mapWindow = new MapWindow(0, 0, (int)(display.getWidth() * 0.8), (int)(Math.round(display.getHeight() * MAP_SIZE_RATIO)));
-        LevelMap map = LevelMap.RANDOM();
+        map = LevelMap.RANDOM();
         map.getObjects().add(player);
         mapWindow.setMap(map);
 

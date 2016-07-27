@@ -1,5 +1,6 @@
 package ru.org.sarg.dungeon.map;
 
+import ru.org.sarg.dungeon.game.Direction;
 import ru.org.sarg.dungeon.game.objects.Penguin;
 
 import java.util.ArrayList;
@@ -35,19 +36,14 @@ public class LevelMap {
     }
 
     public static LevelMap RANDOM() {
-        LevelMap map = new LevelMap(100, 100);
+        LevelMap map = new LevelMap(110, 100);
         for (int i = 0; i < map.terrain.length; i++) {
-            map.terrain[i] = (byte) (Math.random() * 10 > 5 ? 1 : 0);
+            map.terrain[i] = (byte) (Math.random() * 10 > 8 ? 1 : 0);
         }
 
-        t(map, 0);
-        t(map, 1);
-        t(map, map.height-1);
-        t(map, map.height-2);
-
         for (int i = 0; i < 20; i++) {
-            int x = (int) Math.round(Math.random() * (map.width-1));
-            int y = (int) Math.round(Math.random() * (map.height-1));
+            int x = (int) Math.round(Math.random() * (map.width - 1));
+            int y = (int) Math.round(Math.random() * (map.height - 1));
 
             Penguin penguin = new Penguin();
             penguin.setX(x);
@@ -64,6 +60,17 @@ public class LevelMap {
         map.terrain[1 + row * map.width] = 1;
         map.terrain[map.width - 2 + row * map.width] = 1;
         map.terrain[map.width - 1 + row * map.width] = 1;
+    }
+
+    public boolean canMove(int x, int y, Direction d) {
+        x += d.dx;
+        y += d.dy;
+
+        if (x >= width || y >= height || x < 0 || y < 0)
+            return false;
+
+        return get(x,
+                y) == 0;
     }
 
     public class MapView {
@@ -114,8 +121,12 @@ public class LevelMap {
         }
 
         public byte get(int x, int y) {
-            return terrain[(y + vy) * width + vx + x];
+            return LevelMap.this.get(x + vx, y + vy);
         }
+    }
+
+    public byte get(int x, int y) {
+        return terrain[y * width + x];
     }
 
     public MapView view(int x, int y, int w, int h) {

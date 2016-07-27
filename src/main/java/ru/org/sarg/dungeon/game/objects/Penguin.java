@@ -4,6 +4,6 @@ import ru.org.sarg.dungeon.map.GameObject;
 
 public class Penguin extends GameObject {
     public Penguin() {
-        super('X');
+        super('X', 10);
     }
 }

@@ -23,7 +23,7 @@ public class MapWindow extends AbstractWindow {
         this.map = map;
     }
 
-    private char tileConverter(byte t) {
+    private char convertTile(byte t) {
         switch (t) {
             case 0:
                 return ' ';
@@ -38,22 +38,26 @@ public class MapWindow extends AbstractWindow {
         }
     }
 
-
+    @Override
     public void draw(IDisplay display) {
         super.draw(display);
 
         LevelMap.MapView view = getView();
         for (int y = 0; y < view.height(); y++) {
             for (int x = 0; x < view.width(); x++) {
-                display.draw(windowX + getBorder() + x, windowY + getBorder() + y, tileConverter(view.get(x, y)), IDisplay.Color.RED);
+                display.draw(windowX + getBorder() + x, windowY + getBorder() + y, convertTile(view.get(x, y)), IDisplay.Color.RED);
             }
         }
 
         for (GameObject object : view.getObjects()) {
-            display.draw(view.viewX(object.getX()) + getBorder(), view.viewY(object.getY()) + getBorder(), object.getC(), IDisplay.Color.WHITE);
+            drawObject(display, view, object);
         }
 
         currentView = null; // invalidate
+    }
+
+    private void drawObject(IDisplay display, LevelMap.MapView view, GameObject object) {
+        display.draw(view.viewX(object.getX()) + getBorder(), view.viewY(object.getY()) + getBorder(), object.getC(), IDisplay.Color.WHITE);
     }
 
     private LevelMap.MapView getView() {

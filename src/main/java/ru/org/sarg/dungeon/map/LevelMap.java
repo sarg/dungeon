@@ -51,8 +51,8 @@ public class LevelMap {
     }
 
     private static void cross(LevelMap map) {
-        int x = MathUtil.rand(map.width-1);
-        int y = MathUtil.rand(map.height-1);
+        int x = MathUtil.rand(map.width - 1);
+        int y = MathUtil.rand(map.height - 1);
         int l = MathUtil.rand(10);
 
         Direction vertDir = MathUtil.rand(10) > 5 ? Direction.UP : Direction.DOWN;
@@ -131,6 +131,13 @@ public class LevelMap {
                 y) == 0;
     }
 
+    // FIXME: slow, use better data structure
+    public List<GameObject> getObjectsAt(int x, int y) {
+        return objects.stream()
+                .filter(c -> c.getY() == y && c.getX() == x)
+                .collect(Collectors.toList());
+    }
+
     public class MapView {
         final int vx, vy, viewWidth, viewHeight;
 
@@ -153,6 +160,7 @@ public class LevelMap {
             this.viewHeight = viewHeight;
 
             objectsView = objects.stream().filter(this::inView)
+                    .sorted((a, b) -> Integer.compare(a.getzOrder(), b.getzOrder()))
                     .collect(Collectors.toList());
         }
 

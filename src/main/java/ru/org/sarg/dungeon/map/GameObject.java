@@ -1,14 +1,14 @@
 package ru.org.sarg.dungeon.map;
 
-import ru.org.sarg.dungeon.render.IDisplay;
-
-public class GameObject {
+public abstract class GameObject {
     protected int x;
     protected int y;
     private char c;
+    private final int zOrder;
 
-    public GameObject(char c) {
+    public GameObject(char c, int zOrder) {
         this.c = c;
+        this.zOrder = zOrder;
     }
 
     public int getX() {
@@ -33,5 +33,9 @@ public class GameObject {
 
     public void setC(char c) {
         this.c = c;
+    }
+
+    public int getzOrder() {
+        return zOrder;
     }
 }

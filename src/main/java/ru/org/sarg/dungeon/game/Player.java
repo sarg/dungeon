@@ -36,7 +36,7 @@ public class Player extends GameObject {
     public int exp;
 
     public Player(String name, Race race) {
-        super('P');
+        super('P', Integer.MAX_VALUE);
         this.name = name;
         this.race = race;
     }

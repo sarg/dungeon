@@ -27,6 +27,10 @@ public class Input {
                     sb.delete(sb.length() - 1, sb.length());
                 break;
 
+            case KeyEvent.VK_ENTER:
+                callback.run();
+                break;
+
             default:
                 return false;
         }

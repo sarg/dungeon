@@ -79,13 +79,13 @@ public class GameActivity extends Activity {
                     dead.setX(f.getX());
                     dead.setY(f.getY());
 
-                    map.getObjects().remove(f);
                     map.getObjects().add(dead);
 
-                    Penguin alive = new Penguin();
-                    alive.setX(MathUtil.rand(map.getWidth() - 1));
-                    alive.setY(MathUtil.rand(map.getHeight() - 1));
-                    map.getObjects().add(alive);
+                    int dx = MathUtil.rand(10) * (MathUtil.rand(10) > 5 ? 1 : -1);
+                    int dy = MathUtil.rand(10) * (MathUtil.rand(10) > 5 ? 1 : -1);
+
+                    f.setX(MathUtil.adjust(f.getX() + dx, 0, map.getWidth() - 1));
+                    f.setY(MathUtil.adjust(f.getY() + dy, 0, map.getHeight() - 1));
 
                     player.exp += 10;
                 } else {

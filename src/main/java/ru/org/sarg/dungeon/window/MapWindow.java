@@ -6,7 +6,7 @@ import ru.org.sarg.dungeon.map.LevelMap;
 import ru.org.sarg.dungeon.render.IDisplay;
 
 public class MapWindow extends AbstractWindow {
-    public static final int SCROLL_THRESHOLD = 10;
+    public static final int SCROLL_THRESHOLD = 5;
 
     int viewPortX;
     int viewPortY;

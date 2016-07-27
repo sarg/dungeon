@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class PauseMenuActivity extends Activity {
-    MenuWindow menuWindow;
-    SaveActivity saveActivity;
+    private MenuWindow menuWindow;
+    private SaveActivity saveActivity;
 
     public PauseMenuActivity(IDisplay display) {
         super(display);
@@ -36,7 +36,7 @@ public class PauseMenuActivity extends Activity {
         List<Menu.Option> choices = Arrays.asList(
             new Menu.Option("Resume", () -> GameActivity.INSTANCE.setPaused(false)),
             new Menu.Option("Save", () -> setSaving(true)),
-            new Menu.Option("Quit", () -> Dungeon.INSTANCE.quit())
+            new Menu.Option("Quit", Dungeon.INSTANCE::quit)
         );
 
         menuWindow = new MenuWindow(new Menu(choices));
@@ -51,11 +51,11 @@ public class PauseMenuActivity extends Activity {
         }
     }
 
-    public boolean isSaving() {
+    private boolean isSaving() {
         return saveActivity != null;
     }
 
-    public void setSaving(boolean s) {
+    private void setSaving(boolean s) {
         assert (isSaving() != s);
 
         if (s) {

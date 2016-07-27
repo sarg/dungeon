@@ -7,10 +7,10 @@ import ru.org.sarg.dungeon.render.IDisplay;
 
 public class MenuWindow extends TextWindow implements KeyHandler {
     private static final String SELECTED_PREFIX = "* ";
-    Menu menu;
-    int index;
+    private Menu menu;
+    private int index;
 
-    public MenuWindow(int windowX, int windowY, int width, int height) {
+    private MenuWindow(int windowX, int windowY, int width, int height) {
         super(windowX, windowY, width, height);
     }
 
@@ -41,7 +41,9 @@ public class MenuWindow extends TextWindow implements KeyHandler {
         }
     }
 
-    public void setMenu(Menu m) {
+    private void setMenu(Menu m) {
+        assert(!m.getChoices().isEmpty());
+
         this.menu = m;
         this.width = m.getChoices().stream().mapToInt(o -> o.title.length()).max().getAsInt() * 2
                 + getBorder() * 2

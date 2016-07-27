@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 public class LevelMap implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    final int width;
-    final int height;
+    private final int width;
+    private final int height;
 
-    byte[] terrain;
-    List<GameObject> objects;
+    private byte[] terrain;
+    private List<GameObject> objects;
 
-    public LevelMap(int width, int height) {
+    private LevelMap(int width, int height) {
         this.width = width;
         this.height = height;
 
@@ -93,8 +93,7 @@ public class LevelMap implements Serializable {
         if (x >= width || y >= height || x < 0 || y < 0)
             return false;
 
-        return get(x,
-                y) == 0;
+        return get(x, y) == 0;
     }
 
     // FIXME: slow, use better data structure
@@ -104,7 +103,7 @@ public class LevelMap implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    public byte get(int x, int y) {
+    private byte get(int x, int y) {
         assert(x < width && x >= 0);
         assert(y < height && y >= 0);
         return terrain[y * width + x];

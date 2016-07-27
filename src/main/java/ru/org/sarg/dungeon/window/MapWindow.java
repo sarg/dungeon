@@ -6,13 +6,13 @@ import ru.org.sarg.dungeon.map.LevelMap;
 import ru.org.sarg.dungeon.render.IDisplay;
 
 public class MapWindow extends AbstractWindow {
-    public static final int SCROLL_THRESHOLD = 5;
+    private static final int SCROLL_THRESHOLD = 5;
 
-    int viewPortX;
-    int viewPortY;
+    private int viewPortX;
+    private int viewPortY;
 
-    LevelMap map;
-    LevelMap.MapView currentView;
+    private LevelMap map;
+    private LevelMap.MapView currentView;
 
     public MapWindow(int windowX, int windowY, int width, int height) {
         super(windowX, windowY, width, height);
@@ -86,7 +86,7 @@ public class MapWindow extends AbstractWindow {
         return x;
     }
 
-    public void scroll(Direction s) {
+    private void scroll(Direction s) {
         int newViewPortX = adjust(viewPortX + s.dx, 0, map.getWidth() - (width - 2 * getBorder()));
         int newViewPortY = adjust(viewPortY + s.dy, 0, map.getHeight() - (height - 2 * getBorder()));
 

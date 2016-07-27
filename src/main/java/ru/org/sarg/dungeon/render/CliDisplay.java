@@ -5,8 +5,8 @@ import java.util.Arrays;
 
 public class CliDisplay implements IDisplay {
 
-    public static final String ANSI_CLEAR_SCREEN = "\u001B[2J";
-    public static final String ANSI_MOVE_TOP_LEFT = "\u001B[0;0H";
+    private static final String ANSI_CLEAR_SCREEN = "\u001B[2J";
+    private static final String ANSI_MOVE_TOP_LEFT = "\u001B[0;0H";
 
     private static boolean isWindows = System.getProperty("os.name").startsWith("Windows");
 
@@ -32,7 +32,7 @@ public class CliDisplay implements IDisplay {
         return height;
     }
 
-    public int bufPtr(int x, int y) {
+    private int bufPtr(int x, int y) {
         return y * width + x;
     }
 
@@ -123,9 +123,7 @@ public class CliDisplay implements IDisplay {
         if (isWindows) {
             try {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } catch (InterruptedException e) {
-                throw new RuntimeException("Unhandled exception", e);
-            } catch (IOException e) {
+            } catch (InterruptedException | IOException e) {
                 throw new RuntimeException("Unhandled exception", e);
             }
         } else {

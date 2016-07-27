@@ -8,7 +8,6 @@ import ru.org.sarg.dungeon.utils.FpsCounter;
 import ru.org.sarg.dungeon.window.Input;
 import ru.org.sarg.dungeon.window.TextWindow;
 
-import java.awt.event.KeyEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;

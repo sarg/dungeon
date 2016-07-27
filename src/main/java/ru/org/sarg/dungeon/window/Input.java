@@ -6,10 +6,10 @@ import ru.org.sarg.dungeon.KeyHandler;
 import java.util.regex.Pattern;
 
 public class Input implements KeyHandler {
-    final int maxLength;
-    StringBuilder sb;
-    Pattern p;
-    Runnable callback;
+    private final int maxLength;
+    private StringBuilder sb;
+    private Pattern p;
+    private Runnable callback;
 
     public Input(int maxLength, Pattern p, Runnable callback) {
         this.maxLength = maxLength;

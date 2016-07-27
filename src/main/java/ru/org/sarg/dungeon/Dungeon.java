@@ -13,7 +13,7 @@ public class Dungeon {
     public static final boolean DEBUG = true;
     public static final Dungeon INSTANCE = new Dungeon();
     private static boolean quit = false;
-    public Activity activity;
+    private Activity activity;
 
     private Dungeon() {
     }

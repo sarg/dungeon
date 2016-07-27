@@ -5,8 +5,8 @@ import ru.org.sarg.dungeon.Direction;
 public class Player extends GameObject {
     private static final long serialVersionUID = 1L;
 
-    final String name;
-    final Race race;
+    private final String name;
+    private final Race race;
     public int exp;
 
     public Player(String name, Race race) {

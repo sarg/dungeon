@@ -25,6 +25,6 @@ public interface IDisplay {
     void clear();
 
     enum Color {
-        RED, WHITE, BLUE;
+        RED, WHITE, BLUE
     }
 }

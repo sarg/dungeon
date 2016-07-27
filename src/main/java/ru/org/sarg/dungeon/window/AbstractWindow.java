@@ -3,21 +3,21 @@ package ru.org.sarg.dungeon.window;
 import ru.org.sarg.dungeon.render.IDisplay;
 
 public abstract class AbstractWindow {
-    public int windowX;
-    public int windowY;
-    protected int width;
-    protected int height;
-    private int border;
-    private int padding;
+    int windowX;
+    int windowY;
+    int width;
+    int height;
+    int border;
+    int padding;
 
-    public AbstractWindow(int windowX, int windowY, int width, int height) {
+    AbstractWindow(int windowX, int windowY, int width, int height) {
         this.width = width;
         this.height = height;
         this.windowX = windowX;
         this.windowY = windowY;
     }
 
-    public void draw(IDisplay display) {
+    void draw(IDisplay display) {
         display.rect(windowX, windowY, windowX + width - 1, windowY + height - 1, IDisplay.Color.WHITE);
     }
 
@@ -29,19 +29,19 @@ public abstract class AbstractWindow {
         return height;
     }
 
-    public int getBorder() {
+    int getBorder() {
         return border;
     }
 
-    public void setBorder(int border) {
+    void setBorder(int border) {
         this.border = border;
     }
 
-    public int getPadding() {
+    int getPadding() {
         return padding;
     }
 
-    public void setPadding(int padding) {
+    void setPadding(int padding) {
         this.padding = padding;
     }
 }

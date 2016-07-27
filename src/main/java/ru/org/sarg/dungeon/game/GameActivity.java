@@ -21,11 +21,11 @@ import java.util.Optional;
 public class GameActivity extends Activity {
     private static final long SAVE_VERSION = 1L;
     public static GameActivity INSTANCE;
-    MapWindow mapWindow;
-    LevelMap map;
-    TextWindow stats;
-    PauseMenuActivity pauseMenuActivity;
-    FightActivity fightActivity;
+    private MapWindow mapWindow;
+    private LevelMap map;
+    private TextWindow stats;
+    private PauseMenuActivity pauseMenuActivity;
+    private FightActivity fightActivity;
     Player player;
 
     public GameActivity(IDisplay display) {

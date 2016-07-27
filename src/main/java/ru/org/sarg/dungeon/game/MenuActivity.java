@@ -9,12 +9,13 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MenuActivity extends Activity {
-    MenuWindow menuWindow;
-    LoadActivity loadActivity;
+    private MenuWindow menuWindow;
+    private LoadActivity loadActivity;
 
     public MenuActivity(IDisplay display) {
         super(display);
@@ -33,7 +34,7 @@ public class MenuActivity extends Activity {
         List<Menu.Option> choices = Arrays.asList(
                 new Menu.Option("New", () -> Dungeon.INSTANCE.setActivity(new CharacterCreateActivity(display))),
                 new Menu.Option("Load", () -> setLoading(true)),
-                new Menu.Option("Quit", () -> Dungeon.INSTANCE.quit())
+                new Menu.Option("Quit", Dungeon.INSTANCE::quit)
         );
 
         menuWindow = new MenuWindow(new Menu(choices));
@@ -88,7 +89,7 @@ public class MenuActivity extends Activity {
 
             Menu menu;
             if (choices.isEmpty())
-                menu = new Menu(Arrays.asList(new Menu.Option("NO SAVES", () -> setLoading(false))));
+                menu = new Menu(Collections.singletonList(new Menu.Option("NO SAVES", () -> setLoading(false))));
             else
                 menu = new Menu(choices);
 

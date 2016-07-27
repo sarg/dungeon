@@ -29,13 +29,15 @@ public class TextWindow extends AbstractWindow {
 
     @Override
     public void draw(IDisplay display) {
+        display.fill(windowX, windowY, windowX + width - 1, windowY + height - 1, IDisplay.Color.WHITE);
+
         super.draw(display);
 
         int delta = getBorder() + getPadding();
         int x = delta;
         int y = delta;
 
-        for (int i = 0; i<text.length(); i++) {
+        for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             if (c == '\n') {
                 y++;

@@ -3,6 +3,7 @@ package ru.org.sarg.dungeon.game;
 import ru.org.sarg.dungeon.map.LevelMap;
 import ru.org.sarg.dungeon.render.IDisplay;
 import ru.org.sarg.dungeon.window.MapWindow;
+import ru.org.sarg.dungeon.window.MenuWindow;
 import ru.org.sarg.dungeon.window.TextWindow;
 
 public class GameActivity extends Activity {
@@ -11,6 +12,7 @@ public class GameActivity extends Activity {
     private static final double MAP_SIZE_RATIO = 0.8;
     MapWindow mapWindow;
     TextWindow stats;
+    PauseMenuActivity pauseMenuActivity;
     Player player;
 
     public GameActivity(IDisplay display) {
@@ -22,8 +24,28 @@ public class GameActivity extends Activity {
         mapWindow.adjustForPlayer(player);
     }
 
+    public void setPaused(boolean p) {
+        assert(isPaused() != p);
+
+        if (p) {
+            pauseMenuActivity = new PauseMenuActivity(display);
+            pauseMenuActivity.start();
+        } else {
+            pauseMenuActivity = null;
+        }
+    }
+
+    public boolean isPaused() {
+        return pauseMenuActivity != null;
+    }
+
     @Override
     public void onKeyDown(int key) {
+        if (isPaused()) {
+            pauseMenuActivity.onKeyDown(key);
+            return;
+        }
+
         switch (key) {
             case 'j':
                 move(Direction.DOWN);
@@ -42,7 +64,7 @@ public class GameActivity extends Activity {
                 break;
 
             case 'q':
-
+                setPaused(true);
                 break;
         }
     }
@@ -51,6 +73,9 @@ public class GameActivity extends Activity {
     public void draw() {
         mapWindow.draw(display);
         stats.draw(display);
+
+        if (isPaused())
+            pauseMenuActivity.draw();
     }
 
     public void start() {
@@ -63,6 +88,7 @@ public class GameActivity extends Activity {
                 display.getHeight() - mapWindow.getHeight() - 1);
 
         stats.setText(String.format("%s %s\nExperience: %07d", player.race.name(), player.name, player.exp));
+
     }
 
     public void setPlayer(Player player) {

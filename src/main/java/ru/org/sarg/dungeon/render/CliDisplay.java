@@ -97,6 +97,30 @@ public class CliDisplay implements IDisplay {
         draw(x2, y2, '+');
     }
 
+    @Override
+    public void fill(int x1, int y1, int x2, int y2, Color color) {
+        int tmp;
+        if (x1 > x2) {
+            tmp = x1;
+            x1 = x2;
+            x2 = tmp;
+        }
+
+        if (y1 > y2) {
+            tmp = y1;
+            y1 = y2;
+            y2 = tmp;
+        }
+
+        while (x1 <= x2) {
+            int y = y1;
+            while (y <= y2) {
+                draw(x1, y++, ' ');
+            }
+            x1++;
+        }
+    }
+
     public void flush() {
         int newCrc = Arrays.hashCode(buffer);
         if (newCrc == lastCrc)

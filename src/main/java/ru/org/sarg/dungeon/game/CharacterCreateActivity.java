@@ -2,6 +2,7 @@ package ru.org.sarg.dungeon.game;
 
 import ru.org.sarg.dungeon.Dungeon;
 import ru.org.sarg.dungeon.render.IDisplay;
+import ru.org.sarg.dungeon.window.Input;
 import ru.org.sarg.dungeon.window.TextWindow;
 
 import java.awt.event.KeyEvent;
@@ -43,55 +44,6 @@ public class CharacterCreateActivity extends Activity {
 
     private Player.Builder player;
 
-    private static class Input {
-        final int maxLength;
-        StringBuilder sb;
-        Pattern p;
-        Runnable callback;
-
-        private Input(int maxLength, Pattern p, Runnable callback) {
-            this.maxLength = maxLength;
-            this.sb = new StringBuilder();
-            this.p = p;
-            this.callback = callback;
-        }
-
-        public int length() {
-            return sb.length();
-        }
-
-        private boolean handleSpecial(int key) {
-            switch (key) {
-                case KeyEvent.VK_DELETE:
-                    if (sb.length() > 0)
-                        sb.delete(sb.length() - 1, sb.length());
-                    break;
-
-                default:
-                    return false;
-            }
-
-            return true;
-        }
-
-        public void onKeyDown(int key) {
-            if (handleSpecial(key))
-                return;
-
-            char c = (char) key;
-            if (p.matcher(String.valueOf(c)).matches() && sb.length() < maxLength)
-                sb.append((char) key);
-        }
-
-        public String value() {
-            return sb.toString();
-        }
-
-        public void clear() {
-            sb = new StringBuilder();
-        }
-    }
-
     public CharacterCreateActivity(IDisplay display) {
         super(display);
     }
@@ -101,7 +53,7 @@ public class CharacterCreateActivity extends Activity {
             return;
 
         if (key == KeyEvent.VK_ENTER) {
-            input.callback.run();
+            input.onEnter();
         } else {
             dialog.deleteLast(input.length());
             input.onKeyDown(key);
@@ -111,7 +63,7 @@ public class CharacterCreateActivity extends Activity {
 
     @Override
     public void start() {
-        dialog = new TextWindow(0, 0, display.getWidth(), display.getHeight());
+        dialog = new TextWindow(0, 0, display.getWidth() - 1, display.getHeight() - 1);
         fpsCounter = new FpsCounter(0.5);
         player = new Player.Builder();
         idx = 0;

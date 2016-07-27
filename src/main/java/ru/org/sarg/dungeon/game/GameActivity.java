@@ -3,7 +3,6 @@ package ru.org.sarg.dungeon.game;
 import ru.org.sarg.dungeon.map.LevelMap;
 import ru.org.sarg.dungeon.render.IDisplay;
 import ru.org.sarg.dungeon.window.MapWindow;
-import ru.org.sarg.dungeon.window.MenuWindow;
 import ru.org.sarg.dungeon.window.TextWindow;
 
 public class GameActivity extends Activity {
@@ -38,6 +37,7 @@ public class GameActivity extends Activity {
     public boolean isPaused() {
         return pauseMenuActivity != null;
     }
+
 
     @Override
     public void onKeyDown(int key) {
@@ -88,10 +88,10 @@ public class GameActivity extends Activity {
                 display.getHeight() - mapWindow.getHeight() - 1);
 
         stats.setText(String.format("%s %s\nExperience: %07d", player.race.name(), player.name, player.exp));
-
     }
 
     public void setPlayer(Player player) {
         this.player = player;
     }
+
 }

@@ -19,8 +19,9 @@ public class TextWindow extends AbstractWindow {
         this.text.append(text);
     }
 
-    public StringBuffer deleteLast(int i) {
-        return text.delete(text.length() - i, text.length());
+    public void deleteLast(int i) {
+        if (i < text.length())
+            text.delete(text.length() - i, text.length());
     }
 
     public void clear() {
@@ -29,6 +30,9 @@ public class TextWindow extends AbstractWindow {
 
     @Override
     public void draw(IDisplay display) {
+        assert(width < display.getWidth());
+        assert(height < display.getHeight());
+
         display.fill(windowX, windowY, windowX + width - 1, windowY + height - 1, IDisplay.Color.WHITE);
 
         super.draw(display);

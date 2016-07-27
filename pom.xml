@@ -6,6 +6,7 @@
 
     <groupId>ru.org.sarg</groupId>
     <artifactId>dungeon</artifactId>
+    <packaging>jar</packaging>
     <version>0.0.1</version>
     <build>
         <plugins>
@@ -15,6 +16,20 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>ru.org.sarg.dungeon.Dungeon</mainClass>
+                        </manifest>
+                    </archive>
+                    <finalName>dungeon</finalName>
                 </configuration>
             </plugin>
         </plugins>

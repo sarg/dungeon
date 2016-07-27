@@ -7,7 +7,7 @@ public class Player extends GameObject {
 
     private final String name;
     private final Race race;
-    public int exp;
+    private int exp;
 
     public Player(String name, Race race) {
         super('P', Integer.MAX_VALUE);
@@ -26,6 +26,14 @@ public class Player extends GameObject {
 
     public Race getRace() {
         return race;
+    }
+
+    public int getExp() {
+        return exp;
+    }
+
+    public void setExp(int exp) {
+        this.exp = exp;
     }
 
     public enum Race {

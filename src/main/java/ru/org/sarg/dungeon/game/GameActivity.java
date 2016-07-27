@@ -35,12 +35,16 @@ public class GameActivity extends Activity {
     private void movePlayer(Direction d) {
         if (map.canMove(player.getX(), player.getY(), d)) {
             player.move(d);
-            player.exp += 1;
+            gainExperience(1);
 
             // FIXME: refactor interaction with other objects
             checkFight();
             mapWindow.scrollWithPlayer(player);
         }
+    }
+
+    private void gainExperience(int cnt) {
+        player.setExp(Math.max(0, player.getExp() + cnt));
     }
 
     private void checkFight() {
@@ -90,9 +94,9 @@ public class GameActivity extends Activity {
                     f.setX(MathUtil.adjust(f.getX() + dx, 0, map.getWidth() - 1));
                     f.setY(MathUtil.adjust(f.getY() + dy, 0, map.getHeight() - 1));
 
-                    player.exp += 10;
+                    gainExperience(10);
                 } else {
-                    player.exp = Math.max(0, player.exp - 10);
+                    gainExperience(-10);
                 }
 
                 fightActivity = null;
@@ -139,7 +143,7 @@ public class GameActivity extends Activity {
 
     @Override
     public void draw() {
-        stats.setText(String.format("%s %s\nExperience: %07d", player.getRace().name(), player.getName(), player.exp));
+        stats.setText(String.format("%s %s\nExperience: %07d", player.getRace().name(), player.getName(), player.getExp()));
 
         mapWindow.draw(display);
         stats.draw(display);

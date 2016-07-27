@@ -13,6 +13,7 @@ public class FightActivity extends Activity {
     private final Consumer<Boolean> callback;
     private TextWindow dialog;
     private Input input;
+
     public FightActivity(IDisplay display, Consumer<Boolean> callback) {
         super(display);
         this.callback = callback;
@@ -47,11 +48,11 @@ public class FightActivity extends Activity {
 
     @Override
     public void start() {
-        int x = display.getWidth() / 3;
-        int y = display.getHeight() / 3;
-        dialog = new TextWindow(x, y, display.getWidth() - 1 - x, display.getHeight() - 1 - x);
+        int x = display.getWidth() / 4;
+        int y = display.getHeight() / 4;
+        dialog = new TextWindow(x, y, display.getWidth() - x * 2, display.getHeight() - y * 2);
 
-        input = new Input(2, Pattern.compile("[rsp]"), () -> {
+        input = new Input(1, Pattern.compile("[rsp]"), () -> {
             if (input.length() == 0)
                 return;
 

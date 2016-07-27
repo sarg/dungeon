@@ -1,5 +1,6 @@
 package ru.org.sarg.dungeon.window;
 
+import ru.org.sarg.dungeon.Controls;
 import ru.org.sarg.dungeon.game.Menu;
 import ru.org.sarg.dungeon.render.IDisplay;
 
@@ -21,11 +22,11 @@ public class MenuWindow extends TextWindow {
 
     public void onKeyDown(int key) {
         switch (key) {
-            case 'k':
+            case Controls.UP:
                 index = (index + menu.size() - 1) % menu.size();
                 break;
 
-            case 'j':
+            case Controls.DOWN:
                 index = (index + 1) % menu.size();
                 break;
 

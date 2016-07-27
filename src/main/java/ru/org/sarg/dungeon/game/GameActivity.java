@@ -1,5 +1,6 @@
 package ru.org.sarg.dungeon.game;
 
+import ru.org.sarg.dungeon.Controls;
 import ru.org.sarg.dungeon.Dungeon;
 import ru.org.sarg.dungeon.MathUtil;
 import ru.org.sarg.dungeon.game.objects.DeadPenguin;
@@ -113,19 +114,19 @@ public class GameActivity extends Activity {
         }
 
         switch (key) {
-            case 'j':
+            case Controls.DOWN:
                 move(Direction.DOWN);
                 break;
 
-            case 'k':
+            case Controls.UP:
                 move(Direction.UP);
                 break;
 
-            case 'h':
+            case Controls.LEFT:
                 move(Direction.LEFT);
                 break;
 
-            case 'l':
+            case Controls.RIGHT:
                 move(Direction.RIGHT);
                 break;
         }

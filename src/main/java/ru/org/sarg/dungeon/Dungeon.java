@@ -64,17 +64,17 @@ public class Dungeon {
         FpsCounter fpsCounter = new FpsCounter(10);
         while (!quit) {
             Activity a = Dungeon.INSTANCE.activity;
-            a.draw();
-
-            display.flush();
-            fpsCounter.onFrame();
-
             int key = readKey();
             if (key > 0)
                 a.onKeyDown(key);
 
-            fpsCounter.sleepUntilNextFrame();
-            display.clear();
+            if (fpsCounter.isReadyForNextFrame()) {
+                display.clear();
+                a.draw();
+
+                display.flush();
+                fpsCounter.onFrame();
+            }
         }
     }
 }

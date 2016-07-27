@@ -5,10 +5,18 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class Menu {
-    public List<Menu.Option> choices = new ArrayList<>();
+    private List<Menu.Option> choices = new ArrayList<>();
 
     public int size() {
         return choices.size();
+    }
+
+    public List<Option> getChoices() {
+        return choices;
+    }
+
+    public Menu(List<Option> choices) {
+        this.choices = choices;
     }
 
     public static class Option {

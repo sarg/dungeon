@@ -1,11 +1,11 @@
 package ru.org.sarg.dungeon;
 
 import ru.org.sarg.dungeon.game.Activity;
-import ru.org.sarg.dungeon.utils.FpsCounter;
 import ru.org.sarg.dungeon.game.GameActivity;
 import ru.org.sarg.dungeon.game.MenuActivity;
 import ru.org.sarg.dungeon.render.CliDisplay;
 import ru.org.sarg.dungeon.render.IDisplay;
+import ru.org.sarg.dungeon.utils.FpsCounter;
 
 import java.io.IOException;
 
@@ -53,21 +53,28 @@ public class Dungeon {
         FpsCounter fpsCounter = new FpsCounter(10);
         while (!quit) {
             Activity a = Dungeon.INSTANCE.activity;
-            int key = readKey();
-            if (key > 0)
-                a.onKeyDown(key);
+            processKey(a);
 
             if (fpsCounter.isReadyForNextFrame()) {
-                display.clear();
-                a.draw();
-
-                display.flush();
+                nextFrame(display, a);
                 fpsCounter.onFrame();
             }
         }
     }
 
-    public void  setActivity(Activity a) {
+    private static void nextFrame(IDisplay display, Activity a) {
+        display.clear();
+        a.draw();
+        display.flush();
+    }
+
+    private static void processKey(Activity a) {
+        int key = readKey();
+        if (key > 0)
+            a.onKeyDown(key);
+    }
+
+    public void setActivity(Activity a) {
         this.activity = a;
         a.start();
     }

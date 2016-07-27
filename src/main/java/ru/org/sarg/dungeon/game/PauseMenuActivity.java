@@ -1,14 +1,16 @@
 package ru.org.sarg.dungeon.game;
 
+import ru.org.sarg.dungeon.Controls;
 import ru.org.sarg.dungeon.Dungeon;
 import ru.org.sarg.dungeon.render.IDisplay;
 import ru.org.sarg.dungeon.window.Input;
 import ru.org.sarg.dungeon.window.MenuWindow;
 import ru.org.sarg.dungeon.window.TextWindow;
 
-import java.awt.event.KeyEvent;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class PauseMenuActivity extends Activity {
@@ -30,13 +32,13 @@ public class PauseMenuActivity extends Activity {
 
     @Override
     public void start() {
-        Menu current = new Menu();
-        current.choices.add(new Menu.Option("Resume", () -> GameActivity.INSTANCE.setPaused(false)));
-        current.choices.add(new Menu.Option("Save", () -> setSaving(true)));
-        current.choices.add(new Menu.Option("Quit", () -> Dungeon.INSTANCE.quit()));
+        List<Menu.Option> choices = Arrays.asList(
+            new Menu.Option("Resume", () -> GameActivity.INSTANCE.setPaused(false)),
+            new Menu.Option("Save", () -> setSaving(true)),
+            new Menu.Option("Quit", () -> Dungeon.INSTANCE.quit())
+        );
 
-        menuWindow = new MenuWindow();
-        menuWindow.setMenu(current);
+        menuWindow = new MenuWindow(new Menu(choices));
     }
 
     @Override
@@ -75,7 +77,7 @@ public class PauseMenuActivity extends Activity {
             if (input == null)
                 return;
 
-            if (key == KeyEvent.VK_ENTER) {
+            if (key == Controls.ENTER) {
                 input.onEnter();
             } else {
                 dialog.deleteLast(input.length());

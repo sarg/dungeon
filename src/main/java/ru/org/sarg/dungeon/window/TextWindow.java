@@ -3,7 +3,7 @@ package ru.org.sarg.dungeon.window;
 import ru.org.sarg.dungeon.render.IDisplay;
 
 public class TextWindow extends AbstractWindow {
-    StringBuffer text = new StringBuffer();
+    protected StringBuffer text = new StringBuffer();
 
     public TextWindow(int windowX, int windowY, int width, int height) {
         super(windowX, windowY, width, height);
@@ -20,8 +20,7 @@ public class TextWindow extends AbstractWindow {
     }
 
     public void deleteLast(int i) {
-        if (i < text.length())
-            text.delete(text.length() - i, text.length());
+        text.delete(Math.max(0, text.length() - i), text.length());
     }
 
     public void clear() {

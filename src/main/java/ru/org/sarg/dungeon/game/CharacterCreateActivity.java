@@ -1,5 +1,6 @@
 package ru.org.sarg.dungeon.game;
 
+import ru.org.sarg.dungeon.Controls;
 import ru.org.sarg.dungeon.Dungeon;
 import ru.org.sarg.dungeon.game.objects.Player;
 import ru.org.sarg.dungeon.render.IDisplay;
@@ -54,7 +55,7 @@ public class CharacterCreateActivity extends Activity {
         if (input == null)
             return;
 
-        if (key == KeyEvent.VK_ENTER) {
+        if (key == Controls.ENTER) {
             input.onEnter();
         } else {
             dialog.deleteLast(input.length());

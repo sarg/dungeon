@@ -8,11 +8,14 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class MenuActivity extends Activity {
     MenuWindow menuWindow;
     LoadActivity loadActivity;
+
     public MenuActivity(IDisplay display) {
         super(display);
     }
@@ -32,13 +35,13 @@ public class MenuActivity extends Activity {
 
     @Override
     public void start() {
-        Menu current = new Menu();
-        current.choices.add(new Menu.Option("New", () -> Dungeon.INSTANCE.setActivity(new CharacterCreateActivity(display))));
-        current.choices.add(new Menu.Option("Load", () -> setLoading(true)));
-        current.choices.add(new Menu.Option("Quit", () -> Dungeon.INSTANCE.quit()));
+        List<Menu.Option> choices = Arrays.asList(
+                new Menu.Option("New", () -> Dungeon.INSTANCE.setActivity(new CharacterCreateActivity(display))),
+                new Menu.Option("Load", () -> setLoading(true)),
+                new Menu.Option("Quit", () -> Dungeon.INSTANCE.quit())
+        );
 
-        menuWindow = new MenuWindow();
-        menuWindow.setMenu(current);
+        menuWindow = new MenuWindow(new Menu(choices));
     }
 
     private boolean isLoading() {
@@ -77,23 +80,23 @@ public class MenuActivity extends Activity {
 
         @Override
         public void start() {
-            Menu menu = new Menu();
-
             Path cwd = FileSystems.getDefault().getPath("");
+            List<Menu.Option> choices;
             try {
-                menu.choices.addAll(Files.find(cwd, 1, (path, attr) -> String.valueOf(path).endsWith(".sav"))
+                choices = Files.find(cwd, 1, (path, attr) -> String.valueOf(path).endsWith(".sav"))
                         .map(f -> new Menu.Option(f.getFileName().toString(), () -> GameActivity.INSTANCE.loadSaveFile(f)))
-                        .collect(Collectors.toList())
-                );
+                        .collect(Collectors.toList());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
-            if (menu.choices.isEmpty())
-                menu.choices.add(new Menu.Option("NO SAVES", () -> setLoading(false)));
+            Menu menu;
+            if (choices.isEmpty())
+                menu = new Menu(Arrays.asList(new Menu.Option("NO SAVES", () -> setLoading(false))));
+            else
+                menu = new Menu(choices);
 
-            loadMenuWindow = new MenuWindow();
-            loadMenuWindow.setMenu(menu);
+            loadMenuWindow = new MenuWindow(menu);
         }
 
         @Override

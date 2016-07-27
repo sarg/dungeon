@@ -4,8 +4,6 @@ import ru.org.sarg.dungeon.Controls;
 import ru.org.sarg.dungeon.game.Menu;
 import ru.org.sarg.dungeon.render.IDisplay;
 
-import java.awt.event.KeyEvent;
-
 public class MenuWindow extends TextWindow {
     private static final String SELECTED_PREFIX = "* ";
     Menu menu;
@@ -15,9 +13,10 @@ public class MenuWindow extends TextWindow {
         super(windowX, windowY, width, height);
     }
 
-    public MenuWindow() {
+    public MenuWindow(Menu initial) {
         this(0, 0, 5, 5);
         setBorder(1);
+        setMenu(initial);
     }
 
     public void onKeyDown(int key) {
@@ -30,8 +29,8 @@ public class MenuWindow extends TextWindow {
                 index = (index + 1) % menu.size();
                 break;
 
-            case KeyEvent.VK_ENTER:
-                Menu.Option option = menu.choices.get(index);
+            case Controls.ENTER:
+                Menu.Option option = menu.getChoices().get(index);
                 if (option.next != null)
                     setMenu(option.next.get());
                 else
@@ -42,12 +41,12 @@ public class MenuWindow extends TextWindow {
 
     public void setMenu(Menu m) {
         this.menu = m;
-        this.width = m.choices.stream().mapToInt(o -> o.title.length()).max().getAsInt() * 2
+        this.width = m.getChoices().stream().mapToInt(o -> o.title.length()).max().getAsInt() * 2
                 + getBorder() * 2
                 + getPadding() * 2
                 + SELECTED_PREFIX.length();
 
-        this.height = m.choices.size()
+        this.height = m.getChoices().size()
                 + getBorder() * 2
                 + getPadding() * 2;
 
@@ -60,8 +59,8 @@ public class MenuWindow extends TextWindow {
         this.windowY = (display.getHeight() - height) / 2;
 
         super.clear();
-        for (int i = 0; i < menu.choices.size(); i++) {
-            Menu.Option option = menu.choices.get(i);
+        for (int i = 0; i < menu.getChoices().size(); i++) {
+            Menu.Option option = menu.getChoices().get(i);
             boolean selected = i == index;
             super.append(String.format("%3s%s\n", selected ? SELECTED_PREFIX : "", option.title));
         }

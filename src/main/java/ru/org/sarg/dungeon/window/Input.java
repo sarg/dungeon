@@ -1,5 +1,7 @@
 package ru.org.sarg.dungeon.window;
 
+import ru.org.sarg.dungeon.Controls;
+
 import java.awt.event.KeyEvent;
 import java.util.regex.Pattern;
 
@@ -27,7 +29,7 @@ public class Input {
                     sb.delete(sb.length() - 1, sb.length());
                 break;
 
-            case KeyEvent.VK_ENTER:
+            case Controls.ENTER:
                 callback.run();
                 break;
 

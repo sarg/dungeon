@@ -61,8 +61,17 @@ public class MapWindow extends AbstractWindow {
     }
 
     private LevelMap.MapView getView() {
-        if (currentView == null)
-            currentView = map.view(viewPortX, viewPortY, width - 2 * getBorder(), height - 2 * getBorder());
+        if (currentView == null) {
+            int xEnd = viewPortX + width - 2 * getBorder();
+            if (xEnd >= map.getWidth())
+                xEnd = map.getWidth();
+
+            int yEnd = viewPortY + height - 2 * getBorder();
+            if (yEnd >= map.getHeight())
+                yEnd = map.getHeight();
+
+            currentView = map.view(viewPortX, viewPortY, xEnd - viewPortX, yEnd - viewPortY);
+        }
 
         return currentView;
     }

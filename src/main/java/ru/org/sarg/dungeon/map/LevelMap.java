@@ -105,6 +105,8 @@ public class LevelMap implements Serializable {
     }
 
     public byte get(int x, int y) {
+        assert(x < width && x >= 0);
+        assert(y < height && y >= 0);
         return terrain[y * width + x];
     }
 

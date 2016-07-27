@@ -14,7 +14,7 @@ public class TextWindowTest {
         assertEquals(wnd.text.toString(), "test");
 
         wnd.deleteLast(10);
-        assertEquals(wnd.text.toString(), "testtes");
+        assertEquals(wnd.text.toString(), "");
     }
 
 }

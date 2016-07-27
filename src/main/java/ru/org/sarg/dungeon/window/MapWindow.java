@@ -70,8 +70,14 @@ public class MapWindow extends AbstractWindow {
     }
 
     public void scroll(Direction s) {
-        viewPortX = adjust(viewPortX + s.dx, 0, map.getWidth() - (width - 2 * BORDER));
-        viewPortY = adjust(viewPortY + s.dy, 0, map.getHeight() - (height - 2 * BORDER));
+        int newViewPortX = adjust(viewPortX + s.dx, 0, map.getWidth() - (width - 2 * BORDER));
+        int newViewPortY = adjust(viewPortY + s.dy, 0, map.getHeight() - (height - 2 * BORDER));
+
+        if (newViewPortX != viewPortX || newViewPortY != viewPortY)
+            currentView = null; // invalidate after scroll
+
+        viewPortX = newViewPortX;
+        viewPortY = newViewPortY;
     }
 
     public void adjustForPlayer(GameObject player) {

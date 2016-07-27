@@ -1,5 +1,6 @@
 package ru.org.sarg.dungeon.game;
 
+import ru.org.sarg.dungeon.MathUtil;
 import ru.org.sarg.dungeon.render.IDisplay;
 import ru.org.sarg.dungeon.window.Input;
 import ru.org.sarg.dungeon.window.TextWindow;
@@ -41,7 +42,7 @@ public class FightActivity extends Activity {
 
         dialog.setText("Fight! Fight! Fight!\nSelect your number 0-10: ");
         input = new Input(2, Pattern.compile("\\d"), () -> {
-            int peng = (int) Math.round(Math.random() * 10);
+            int peng = MathUtil.rand(10);
             int you = input.length();
 
             if (you == peng) {

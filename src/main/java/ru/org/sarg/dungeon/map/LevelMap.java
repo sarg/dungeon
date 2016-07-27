@@ -1,5 +1,6 @@
 package ru.org.sarg.dungeon.map;
 
+import ru.org.sarg.dungeon.MathUtil;
 import ru.org.sarg.dungeon.game.Direction;
 import ru.org.sarg.dungeon.game.objects.Penguin;
 
@@ -35,15 +36,43 @@ public class LevelMap {
         return objects;
     }
 
+    private static void vline(LevelMap map, int x, int y, int l, Direction d) {
+        while (l-- >= 0 && y > 0 && y < map.height) {
+            map.terrain[y * map.width + x] = 2;
+            y += d.dy;
+        }
+    }
+
+    private static void hline(LevelMap map, int x, int y, int l, Direction d) {
+        while (l-- >= 0 && x > 0 && x < map.width) {
+            map.terrain[y * map.width + x] = 3;
+            x += d.dx;
+        }
+    }
+
+    private static void cross(LevelMap map) {
+        int x = MathUtil.rand(map.width-1);
+        int y = MathUtil.rand(map.height-1);
+        int l = MathUtil.rand(10);
+
+        Direction vertDir = MathUtil.rand(10) > 5 ? Direction.UP : Direction.DOWN;
+        Direction horDir = MathUtil.rand(10) > 5 ? Direction.LEFT : Direction.RIGHT;
+
+        hline(map, x, y, l, horDir);
+        vline(map, x, y, l, vertDir);
+    }
+
     public static LevelMap RANDOM() {
         LevelMap map = new LevelMap(110, 100);
-        for (int i = 0; i < map.terrain.length; i++) {
-            map.terrain[i] = (byte) (Math.random() * 10 > 8 ? 1 : 0);
+        for (int i = 0; i < 50; i++) {
+            cross(map);
         }
 
+//        detectWallDirections(map);
+
         for (int i = 0; i < 20; i++) {
-            int x = (int) Math.round(Math.random() * (map.width - 1));
-            int y = (int) Math.round(Math.random() * (map.height - 1));
+            int x = MathUtil.rand(map.width - 1);
+            int y = MathUtil.rand(map.height - 1);
 
             Penguin penguin = new Penguin();
             penguin.setX(x);
@@ -53,6 +82,35 @@ public class LevelMap {
         }
 
         return map;
+    }
+
+    private static void detectWallDirections(LevelMap map) {
+        for (int x = 0; x < map.width; x++) {
+            for (int y = 0; y < map.height; y++) {
+                if (map.get(x, y) == 0) continue;
+                int vNeigbours = 0;
+                int hNeigbours = 0;
+                if (y > 0 && map.get(x, y - 1) > 0)
+                    vNeigbours++;
+
+                if (y < map.height - 2 && map.get(x, y + 1) > 0)
+                    vNeigbours++;
+
+                if (x > 0 && map.get(x - 1, y) > 0)
+                    hNeigbours++;
+
+                if (x < map.width - 2 && map.get(x + 1, y) > 0)
+                    hNeigbours++;
+
+                if (vNeigbours > 0 && hNeigbours > 0) {
+                    map.terrain[y * map.width + x] = 1;
+                } else if (vNeigbours > 0) {
+                    map.terrain[y * map.width + x] = 2;
+                } else if (hNeigbours > 0) {
+                    map.terrain[y * map.width + x] = 3;
+                }
+            }
+        }
     }
 
     private static void t(LevelMap map, int row) {

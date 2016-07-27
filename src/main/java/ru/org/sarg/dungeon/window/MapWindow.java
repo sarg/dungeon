@@ -28,7 +28,11 @@ public class MapWindow extends AbstractWindow {
             case 0:
                 return ' ';
             case 1:
-                return '\u25a0'; // BOX
+                return '\u253c'; // BOX
+            case 2:
+                return '\u2502'; // │
+            case 3:
+                return '\u2500'; // ─────
             default:
                 return '?';
         }

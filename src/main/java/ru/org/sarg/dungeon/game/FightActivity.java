@@ -1,7 +1,7 @@
 package ru.org.sarg.dungeon.game;
 
-import ru.org.sarg.dungeon.utils.MathUtil;
 import ru.org.sarg.dungeon.render.IDisplay;
+import ru.org.sarg.dungeon.utils.MathUtil;
 import ru.org.sarg.dungeon.window.Input;
 import ru.org.sarg.dungeon.window.TextWindow;
 
@@ -19,6 +19,7 @@ public class FightActivity extends Activity {
         this.callback = callback;
     }
 
+    @Override
     public void onKeyDown(int key) {
         if (input == null)
             return;

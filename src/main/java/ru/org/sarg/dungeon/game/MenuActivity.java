@@ -20,6 +20,7 @@ public class MenuActivity extends Activity {
         super(display);
     }
 
+    @Override
     public void onKeyDown(int key) {
         if (isLoading())
             loadActivity.onKeyDown(key);
@@ -68,6 +69,7 @@ public class MenuActivity extends Activity {
             super(display);
         }
 
+        @Override
         public void onKeyDown(int key) {
             loadMenuWindow.onKeyDown(key);
         }

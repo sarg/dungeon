@@ -32,29 +32,32 @@ public class GameActivity extends Activity {
         super(display);
     }
 
-    private void move(Direction d) {
+    private void movePlayer(Direction d) {
         if (map.canMove(player.getX(), player.getY(), d)) {
             player.move(d);
             player.exp += 1;
 
             // FIXME: refactor interaction with other objects
-            List<GameObject> objects = map.getObjectsAt(player.getX(), player.getY());
-            if (objects.size() > 1) {
-                Optional<GameObject> penguin = objects.stream().filter(c -> c instanceof Penguin).findAny();
-                if (penguin.isPresent()) {
-                    setFighting(penguin.get());
-                }
-            }
-
-            mapWindow.adjustForPlayer(player);
+            checkFight();
+            mapWindow.scrollWithPlayer(player);
         }
     }
 
-    public boolean isPaused() {
+    private void checkFight() {
+        List<GameObject> objects = map.getObjectsAt(player.getX(), player.getY());
+        if (objects.size() > 1) {
+            Optional<GameObject> penguin = objects.stream().filter(c -> c instanceof Penguin).findAny();
+            if (penguin.isPresent()) {
+                setFighting(penguin.get());
+            }
+        }
+    }
+
+    private boolean isPaused() {
         return pauseMenuActivity != null;
     }
 
-    public void setPaused(boolean p) {
+    void setPaused(boolean p) {
         assert (isPaused() != p);
 
         if (p) {
@@ -65,11 +68,11 @@ public class GameActivity extends Activity {
         }
     }
 
-    public boolean isFighting() {
+    private boolean isFighting() {
         return fightActivity != null;
     }
 
-    public void setFighting(GameObject f) {
+    private void setFighting(GameObject f) {
         assert (isFighting() || f == null);
 
         if (f != null) {
@@ -105,7 +108,7 @@ public class GameActivity extends Activity {
             return;
         }
 
-        if (key == 'q') {
+        if (key == Controls.QUIT) {
             setPaused(true);
             return;
         }
@@ -117,19 +120,19 @@ public class GameActivity extends Activity {
 
         switch (key) {
             case Controls.DOWN:
-                move(Direction.DOWN);
+                movePlayer(Direction.DOWN);
                 break;
 
             case Controls.UP:
-                move(Direction.UP);
+                movePlayer(Direction.UP);
                 break;
 
             case Controls.LEFT:
-                move(Direction.LEFT);
+                movePlayer(Direction.LEFT);
                 break;
 
             case Controls.RIGHT:
-                move(Direction.RIGHT);
+                movePlayer(Direction.RIGHT);
                 break;
         }
     }
@@ -154,7 +157,7 @@ public class GameActivity extends Activity {
         mapWindow = new MapWindow(0, 0, display.getWidth(), display.getHeight() - stats.getHeight());
     }
 
-    public void newGame(Player p) {
+    void newGame(Player p) {
         Dungeon.INSTANCE.setActivity(GameActivity.INSTANCE);
 
         this.player = p;
@@ -164,7 +167,7 @@ public class GameActivity extends Activity {
         mapWindow.setMap(map);
     }
 
-    public void loadSaveFile(Path path) {
+    void loadSaveFile(Path path) {
         Dungeon.INSTANCE.setActivity(this);
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
@@ -185,7 +188,7 @@ public class GameActivity extends Activity {
         }
     }
 
-    public void saveToFile(Path path) {
+    void saveToFile(Path path) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path.toFile()))) {
             oos.writeLong(1); // VERSION
             oos.writeObject(map);

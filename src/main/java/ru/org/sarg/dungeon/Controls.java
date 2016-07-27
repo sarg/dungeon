@@ -3,10 +3,11 @@ package ru.org.sarg.dungeon;
 import java.awt.event.KeyEvent;
 
 public class Controls {
-    public static final char UP = 'w';
-    public static final char DOWN = 's';
-    public static final char LEFT = 'a';
-    public static final char RIGHT = 'd';
-    public static final char QUIT = 'q';
-    public static final int ENTER = (char) KeyEvent.VK_ENTER;
+    public static final int UP = 'w';
+    public static final int DOWN = 's';
+    public static final int LEFT = 'a';
+    public static final int RIGHT = 'd';
+    public static final int QUIT = 'q';
+    public static final int ENTER = KeyEvent.VK_ENTER;
+    public static final int BACKSPACE = KeyEvent.VK_DELETE;
 }

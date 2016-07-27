@@ -97,7 +97,7 @@ public class MapWindow extends AbstractWindow {
         viewPortY = newViewPortY;
     }
 
-    public void adjustForPlayer(GameObject player) {
+    public void scrollWithPlayer(GameObject player) {
         LevelMap.MapView view = getView();
 
         int viewX = view.viewX(player.getX());

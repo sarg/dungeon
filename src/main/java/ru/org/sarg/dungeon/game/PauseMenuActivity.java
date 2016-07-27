@@ -21,6 +21,7 @@ public class PauseMenuActivity extends Activity {
         super(display);
     }
 
+    @Override
     public void onKeyDown(int key) {
         if (isSaving()) {
             saveActivity.onKeyDown(key);
@@ -73,6 +74,7 @@ public class PauseMenuActivity extends Activity {
             super(display);
         }
 
+        @Override
         public void onKeyDown(int key) {
             if (input == null)
                 return;

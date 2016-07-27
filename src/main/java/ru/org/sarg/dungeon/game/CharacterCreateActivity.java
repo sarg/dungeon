@@ -51,6 +51,7 @@ public class CharacterCreateActivity extends Activity {
         super(display);
     }
 
+    @Override
     public void onKeyDown(int key) {
         if (input == null)
             return;

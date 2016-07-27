@@ -1,11 +1,11 @@
 package ru.org.sarg.dungeon.window;
 
 import ru.org.sarg.dungeon.Controls;
+import ru.org.sarg.dungeon.KeyHandler;
 
-import java.awt.event.KeyEvent;
 import java.util.regex.Pattern;
 
-public class Input {
+public class Input implements KeyHandler {
     final int maxLength;
     StringBuilder sb;
     Pattern p;
@@ -24,7 +24,7 @@ public class Input {
 
     private boolean handleSpecial(int key) {
         switch (key) {
-            case KeyEvent.VK_DELETE:
+            case Controls.BACKSPACE:
                 if (sb.length() > 0)
                     sb.delete(sb.length() - 1, sb.length());
                 break;
@@ -40,6 +40,7 @@ public class Input {
         return true;
     }
 
+    @Override
     public void onKeyDown(int key) {
         if (handleSpecial(key))
             return;

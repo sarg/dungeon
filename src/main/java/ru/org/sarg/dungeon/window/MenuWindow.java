@@ -1,10 +1,11 @@
 package ru.org.sarg.dungeon.window;
 
 import ru.org.sarg.dungeon.Controls;
+import ru.org.sarg.dungeon.KeyHandler;
 import ru.org.sarg.dungeon.game.Menu;
 import ru.org.sarg.dungeon.render.IDisplay;
 
-public class MenuWindow extends TextWindow {
+public class MenuWindow extends TextWindow implements KeyHandler {
     private static final String SELECTED_PREFIX = "* ";
     Menu menu;
     int index;
@@ -19,6 +20,7 @@ public class MenuWindow extends TextWindow {
         setMenu(initial);
     }
 
+    @Override
     public void onKeyDown(int key) {
         switch (key) {
             case Controls.UP:

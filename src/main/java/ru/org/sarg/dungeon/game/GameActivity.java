@@ -17,7 +17,6 @@ import java.util.Optional;
 
 public class GameActivity extends Activity {
     private static final long SAVE_VERSION = 1L;
-    private static final double MAP_SIZE_RATIO = 0.8;
     public static GameActivity INSTANCE;
     MapWindow mapWindow;
     LevelMap map;
@@ -148,12 +147,13 @@ public class GameActivity extends Activity {
 
     @Override
     public void start() {
-        mapWindow = new MapWindow(0, 0, (int) (display.getWidth() * 0.8), (int) (Math.round(display.getHeight() * MAP_SIZE_RATIO)));
-        stats = new TextWindow(0, mapWindow.getHeight(), display.getWidth(),
-                display.getHeight() - mapWindow.getHeight() - 1);
+        stats = new TextWindow(0, display.getHeight() - 1 - 6, display.getWidth(), 6);
+        mapWindow = new MapWindow(0, 0, display.getWidth(), display.getHeight() - stats.getHeight());
     }
 
     public void newGame(Player p) {
+        Dungeon.INSTANCE.setActivity(GameActivity.INSTANCE);
+
         this.player = p;
 
         map = LevelMap.RANDOM();

@@ -109,7 +109,6 @@ public class CharacterCreateActivity extends Activity {
 
     private void gogogo() {
         GameActivity.INSTANCE.newGame(player.build());
-        Dungeon.INSTANCE.setActivity(GameActivity.INSTANCE);
     }
 
     private void enter() {
@@ -131,6 +130,7 @@ public class CharacterCreateActivity extends Activity {
                     text = text.replace("[name]", player.name);
                 dialog.append(text);
                 dialog.append("\n");
+                fpsCounter.onFrame();
             }
         }
 

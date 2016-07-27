@@ -31,7 +31,6 @@ public class Dungeon {
         }
     }
 
-
     private static int readKey() {
         int key = 0;
         try {
@@ -46,7 +45,7 @@ public class Dungeon {
 
     public static void main(String[] args) throws IOException {
         initTerm();
-        IDisplay display = new CliDisplay(80, 40);
+        IDisplay display = new CliDisplay(79, 25);
 
         GameActivity.INSTANCE = new GameActivity(display);
         Dungeon.INSTANCE.setActivity(new MenuActivity(display));
@@ -68,7 +67,7 @@ public class Dungeon {
         }
     }
 
-    public void setActivity(Activity a) {
+    public void  setActivity(Activity a) {
         this.activity = a;
         a.start();
     }

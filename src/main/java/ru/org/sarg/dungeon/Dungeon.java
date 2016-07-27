@@ -10,7 +10,7 @@ import ru.org.sarg.dungeon.utils.FpsCounter;
 import java.io.IOException;
 
 public class Dungeon {
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     public static final Dungeon INSTANCE = new Dungeon();
     private static boolean quit = false;
     private Activity activity;

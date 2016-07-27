@@ -106,4 +106,9 @@ public class MapWindow extends AbstractWindow {
         if (viewY > height - SCROLL_THRESHOLD - 1)
             scroll(Direction.DOWN);
     }
+
+    public void centerAt(GameObject player) {
+        viewPortX = Math.max(player.getX() - width / 2, 0);
+        viewPortY = Math.max(player.getY() - height / 2, 0);
+    }
 }

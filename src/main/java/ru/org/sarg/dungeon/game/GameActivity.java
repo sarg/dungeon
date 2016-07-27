@@ -178,6 +178,7 @@ public class GameActivity extends Activity {
             map = (LevelMap) ois.readObject();
             mapWindow.setMap(map);
             player = (Player) map.getObjects().stream().filter(c -> c.getClass().equals(Player.class)).findFirst().get();
+            mapWindow.centerAt(player);
         } catch (IOException | ClassNotFoundException e) {
             // FIXME: show alert
             throw new RuntimeException("Unhandled exception", e);

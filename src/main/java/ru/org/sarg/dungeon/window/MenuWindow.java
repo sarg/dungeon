@@ -4,7 +4,6 @@ import ru.org.sarg.dungeon.game.Menu;
 import ru.org.sarg.dungeon.render.IDisplay;
 
 import java.awt.event.KeyEvent;
-import java.util.Iterator;
 
 public class MenuWindow extends TextWindow {
     private static final String SELECTED_PREFIX = "* ";

@@ -3,10 +3,10 @@ package ru.org.sarg.dungeon.map;
 import java.io.Serializable;
 
 public abstract class GameObject implements Serializable {
+    private final int zOrder;
     protected int x;
     protected int y;
     private char c;
-    private final int zOrder;
 
     public GameObject(char c, int zOrder) {
         this.c = c;

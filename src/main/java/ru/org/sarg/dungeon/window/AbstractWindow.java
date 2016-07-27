@@ -3,10 +3,10 @@ package ru.org.sarg.dungeon.window;
 import ru.org.sarg.dungeon.render.IDisplay;
 
 public abstract class AbstractWindow {
-    protected int width;
-    protected int height;
     public int windowX;
     public int windowY;
+    protected int width;
+    protected int height;
     private int border;
     private int padding;
 

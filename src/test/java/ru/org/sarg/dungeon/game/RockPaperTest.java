@@ -2,14 +2,12 @@ package ru.org.sarg.dungeon.game;
 
 import org.junit.Test;
 
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class RockPaperTest {
     @Test
     public void compare() throws Exception {
-        String[] wins = new String[] { "rs", "sp", "pr" };
+        String[] wins = new String[]{"rs", "sp", "pr"};
 
         for (int i = 0; i < wins.length; i++) {
             String win = wins[i];

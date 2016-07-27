@@ -10,7 +10,7 @@ public class CliDisplay implements IDisplay {
     private final int height;
     private final int width;
 
-    private char[] buffer;
+    private final char[] buffer;
     private long lastCrc;
 
     public CliDisplay(int width, int height) {

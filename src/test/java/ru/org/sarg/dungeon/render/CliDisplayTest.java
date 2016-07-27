@@ -1,10 +1,10 @@
 package ru.org.sarg.dungeon.render;
 
 import org.junit.Test;
-import ru.org.sarg.dungeon.window.MapWindow;
 import ru.org.sarg.dungeon.map.LevelMap;
+import ru.org.sarg.dungeon.window.MapWindow;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class CliDisplayTest {
     @org.junit.Test

@@ -11,56 +11,17 @@ import java.nio.file.Path;
 import java.util.stream.Collectors;
 
 public class MenuActivity extends Activity {
-    public class LoadActivity extends Activity {
-        private MenuWindow loadMenuWindow;
-
-        public LoadActivity(IDisplay display) {
-            super(display);
-        }
-
-        public void onKeyDown(int key) {
-            loadMenuWindow.onKeyDown(key);
-        }
-
-        @Override
-        public void start() {
-            Menu menu = new Menu();
-
-            Path cwd = FileSystems.getDefault().getPath("");
-            try {
-                menu.choices.addAll(Files.find(cwd, 1, (path, attr) -> String.valueOf(path).endsWith(".sav"))
-                        .map(f -> new Menu.Option(f.getFileName().toString(), () -> GameActivity.INSTANCE.loadSaveFile(f)))
-                        .collect(Collectors.toList())
-                );
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            if (menu.choices.isEmpty())
-                menu.choices.add(new Menu.Option("NO SAVES", () -> setLoading(false)));
-
-            loadMenuWindow = new MenuWindow();
-            loadMenuWindow.setMenu(menu);
-        }
-
-        @Override
-        public void draw() {
-            loadMenuWindow.draw(display);
-        }
-    }
-
     MenuWindow menuWindow;
     LoadActivity loadActivity;
+    public MenuActivity(IDisplay display) {
+        super(display);
+    }
 
     /*
     New -> Character creation dialog -> Game
     Load -> List of saves -> Select -> Game
     Quit -> clean up and exit
      */
-
-    public MenuActivity(IDisplay display) {
-        super(display);
-    }
 
     public void onKeyDown(int key) {
         if (isLoading())
@@ -101,5 +62,43 @@ public class MenuActivity extends Activity {
             loadActivity.draw();
         else
             menuWindow.draw(display);
+    }
+
+    public class LoadActivity extends Activity {
+        private MenuWindow loadMenuWindow;
+
+        public LoadActivity(IDisplay display) {
+            super(display);
+        }
+
+        public void onKeyDown(int key) {
+            loadMenuWindow.onKeyDown(key);
+        }
+
+        @Override
+        public void start() {
+            Menu menu = new Menu();
+
+            Path cwd = FileSystems.getDefault().getPath("");
+            try {
+                menu.choices.addAll(Files.find(cwd, 1, (path, attr) -> String.valueOf(path).endsWith(".sav"))
+                        .map(f -> new Menu.Option(f.getFileName().toString(), () -> GameActivity.INSTANCE.loadSaveFile(f)))
+                        .collect(Collectors.toList())
+                );
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (menu.choices.isEmpty())
+                menu.choices.add(new Menu.Option("NO SAVES", () -> setLoading(false)));
+
+            loadMenuWindow = new MenuWindow();
+            loadMenuWindow.setMenu(menu);
+        }
+
+        @Override
+        public void draw() {
+            loadMenuWindow.draw(display);
+        }
     }
 }

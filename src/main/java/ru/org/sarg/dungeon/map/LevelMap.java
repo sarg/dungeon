@@ -25,18 +25,6 @@ public class LevelMap implements Serializable {
         objects = new ArrayList<>();
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public List<GameObject> getObjects() {
-        return objects;
-    }
-
     private static void vline(LevelMap map, int x, int y, int l, Direction d) {
         while (l-- >= 0 && y > 0 && y < map.height) {
             map.terrain[y * map.width + x] = 2;
@@ -121,6 +109,18 @@ public class LevelMap implements Serializable {
         map.terrain[map.width - 1 + row * map.width] = 1;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public List<GameObject> getObjects() {
+        return objects;
+    }
+
     public boolean canMove(int x, int y, Direction d) {
         x += d.dx;
         y += d.dy;
@@ -139,8 +139,28 @@ public class LevelMap implements Serializable {
                 .collect(Collectors.toList());
     }
 
+    public byte get(int x, int y) {
+        return terrain[y * width + x];
+    }
+
+    public MapView view(int x, int y, int w, int h) {
+        return new MapView(x, y, w, h);
+    }
+
     public class MapView {
         final int vx, vy, viewWidth, viewHeight;
+        private Collection<GameObject> objectsView;
+
+        private MapView(int vx, int vy, int viewWidth, int viewHeight) {
+            this.vx = vx;
+            this.vy = vy;
+            this.viewWidth = viewWidth;
+            this.viewHeight = viewHeight;
+
+            objectsView = objects.stream().filter(this::inView)
+                    .sorted((a, b) -> Integer.compare(a.getzOrder(), b.getzOrder()))
+                    .collect(Collectors.toList());
+        }
 
         private boolean inView(GameObject obj) {
             int x = obj.getX();
@@ -152,17 +172,6 @@ public class LevelMap implements Serializable {
                 }
             }
             return false;
-        }
-
-        private MapView(int vx, int vy, int viewWidth, int viewHeight) {
-            this.vx = vx;
-            this.vy = vy;
-            this.viewWidth = viewWidth;
-            this.viewHeight = viewHeight;
-
-            objectsView = objects.stream().filter(this::inView)
-                    .sorted((a, b) -> Integer.compare(a.getzOrder(), b.getzOrder()))
-                    .collect(Collectors.toList());
         }
 
         public int viewX(int realX) {
@@ -181,8 +190,6 @@ public class LevelMap implements Serializable {
             return viewHeight;
         }
 
-        private Collection<GameObject> objectsView;
-
         public Collection<GameObject> getObjects() {
             return objectsView;
         }
@@ -190,14 +197,6 @@ public class LevelMap implements Serializable {
         public byte get(int x, int y) {
             return LevelMap.this.get(x + vx, y + vy);
         }
-    }
-
-    public byte get(int x, int y) {
-        return terrain[y * width + x];
-    }
-
-    public MapView view(int x, int y, int w, int h) {
-        return new MapView(x, y, w, h);
     }
 
 /*    public byte[] view(int x, int y, int w, int h) {

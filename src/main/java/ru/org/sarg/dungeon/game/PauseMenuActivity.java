@@ -12,6 +12,56 @@ import java.nio.file.Path;
 import java.util.regex.Pattern;
 
 public class PauseMenuActivity extends Activity {
+    MenuWindow menuWindow;
+    SaveActivity saveActivity;
+    public PauseMenuActivity(IDisplay display) {
+        super(display);
+    }
+
+    public void onKeyDown(int key) {
+        if (isSaving()) {
+            saveActivity.onKeyDown(key);
+            return;
+        }
+
+        menuWindow.onKeyDown(key);
+    }
+
+    @Override
+    public void start() {
+        Menu current = new Menu();
+        current.choices.add(new Menu.Option("Resume", () -> GameActivity.INSTANCE.setPaused(false)));
+        current.choices.add(new Menu.Option("Save", () -> setSaving(true)));
+        current.choices.add(new Menu.Option("Quit", () -> Dungeon.INSTANCE.quit()));
+
+        menuWindow = new MenuWindow();
+        menuWindow.setMenu(current);
+    }
+
+    @Override
+    public void draw() {
+        if (isSaving()) {
+            saveActivity.draw();
+        } else {
+            menuWindow.draw(display);
+        }
+    }
+
+    public boolean isSaving() {
+        return saveActivity != null;
+    }
+
+    public void setSaving(boolean s) {
+        assert (isSaving() != s);
+
+        if (s) {
+            saveActivity = new SaveActivity(display);
+            saveActivity.start();
+        } else {
+            saveActivity = null;
+        }
+    }
+
     public class SaveActivity extends Activity {
         private TextWindow dialog;
         private Input input;
@@ -52,57 +102,6 @@ public class PauseMenuActivity extends Activity {
         @Override
         public void draw() {
             dialog.draw(display);
-        }
-    }
-
-    MenuWindow menuWindow;
-    SaveActivity saveActivity;
-
-    public PauseMenuActivity(IDisplay display) {
-        super(display);
-    }
-
-    public void onKeyDown(int key) {
-        if (isSaving()) {
-            saveActivity.onKeyDown(key);
-            return;
-        }
-
-        menuWindow.onKeyDown(key);
-    }
-
-    @Override
-    public void start() {
-        Menu current = new Menu();
-        current.choices.add(new Menu.Option("Resume", () -> GameActivity.INSTANCE.setPaused(false)));
-        current.choices.add(new Menu.Option("Save", () -> setSaving(true)));
-        current.choices.add(new Menu.Option("Quit", () -> Dungeon.INSTANCE.quit()));
-
-        menuWindow = new MenuWindow();
-        menuWindow.setMenu(current);
-    }
-
-    @Override
-    public void draw() {
-        if (isSaving())  {
-            saveActivity.draw();
-        } else {
-            menuWindow.draw(display);
-        }
-    }
-
-    public boolean isSaving() {
-        return saveActivity != null;
-    }
-
-    public void setSaving(boolean s) {
-        assert(isSaving() != s);
-
-        if (s) {
-            saveActivity = new SaveActivity(display);
-            saveActivity.start();
-        } else {
-            saveActivity = null;
         }
     }
 }

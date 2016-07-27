@@ -6,47 +6,13 @@ import ru.org.sarg.dungeon.window.Input;
 import ru.org.sarg.dungeon.window.TextWindow;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.regex.Pattern;
 
 public class FightActivity extends Activity {
 
-    protected enum RockPaper {
-        ROCK, PAPER, SCISSORS;
-
-        public int compare(RockPaper other) {
-            if (this == other)
-                return 0;
-            else if (this == ROCK)
-                return other == PAPER ? -1 : 1;
-            else if (this == PAPER)
-                return other == SCISSORS ? -1 : 1;
-            else if (this == SCISSORS)
-                return other == ROCK ? -1 : 1;
-            else
-                throw new RuntimeException("wat?");
-        }
-
-        public static RockPaper roll() {
-            return RockPaper.values()[MathUtil.rand(RockPaper.values().length - 1)];
-        }
-
-        public static RockPaper fromChar(String s) {
-            for (int i = 0; i < values().length; i++) {
-                RockPaper rockPaper = values()[i];
-
-                if (rockPaper.name().startsWith(s.toUpperCase()))
-                    return rockPaper;
-            }
-
-            throw new RuntimeException("wat?");
-        }
-    }
-
+    private final Consumer<Boolean> callback;
     private TextWindow dialog;
     private Input input;
-    private final Consumer<Boolean> callback;
-
     public FightActivity(IDisplay display, Consumer<Boolean> callback) {
         super(display);
         this.callback = callback;
@@ -73,7 +39,10 @@ public class FightActivity extends Activity {
     }
 
     private Input enter(Input prev) {
-        return new Input(0, Pattern.compile(""), () -> { input = prev; reset(); });
+        return new Input(0, Pattern.compile(""), () -> {
+            input = prev;
+            reset();
+        });
     }
 
     @Override
@@ -107,5 +76,37 @@ public class FightActivity extends Activity {
 
     private Input finish(boolean b) {
         return new Input(0, Pattern.compile(""), () -> callback.accept(b));
+    }
+
+    protected enum RockPaper {
+        ROCK, PAPER, SCISSORS;
+
+        public static RockPaper roll() {
+            return RockPaper.values()[MathUtil.rand(RockPaper.values().length - 1)];
+        }
+
+        public static RockPaper fromChar(String s) {
+            for (int i = 0; i < values().length; i++) {
+                RockPaper rockPaper = values()[i];
+
+                if (rockPaper.name().startsWith(s.toUpperCase()))
+                    return rockPaper;
+            }
+
+            throw new RuntimeException("wat?");
+        }
+
+        public int compare(RockPaper other) {
+            if (this == other)
+                return 0;
+            else if (this == ROCK)
+                return other == PAPER ? -1 : 1;
+            else if (this == PAPER)
+                return other == SCISSORS ? -1 : 1;
+            else if (this == SCISSORS)
+                return other == ROCK ? -1 : 1;
+            else
+                throw new RuntimeException("wat?");
+        }
     }
 }

@@ -10,11 +10,10 @@ import ru.org.sarg.dungeon.render.IDisplay;
 import java.io.IOException;
 
 public class Dungeon {
-    public static final boolean DEBUG = true;
-    public static Dungeon INSTANCE = new Dungeon();
-
-    public Activity activity;
+    public static final boolean DEBUG = false;
+    public static final Dungeon INSTANCE = new Dungeon();
     private static boolean quit = false;
+    public Activity activity;
 
     private Dungeon() {
     }
@@ -45,15 +44,6 @@ public class Dungeon {
         return key;
     }
 
-    public void setActivity(Activity a) {
-        this.activity = a;
-        a.start();
-    }
-
-    public void quit() {
-        quit = true;
-    }
-
     public static void main(String[] args) throws IOException {
         initTerm();
         IDisplay display = new CliDisplay(80, 40);
@@ -76,5 +66,14 @@ public class Dungeon {
                 fpsCounter.onFrame();
             }
         }
+    }
+
+    public void setActivity(Activity a) {
+        this.activity = a;
+        a.start();
+    }
+
+    public void quit() {
+        quit = true;
     }
 }

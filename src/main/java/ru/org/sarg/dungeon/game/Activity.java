@@ -10,6 +10,8 @@ public abstract class Activity {
     }
 
     abstract public void onKeyDown(int key);
+
     abstract public void draw();
+
     public abstract void start();
 }

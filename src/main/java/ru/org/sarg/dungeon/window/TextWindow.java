@@ -30,8 +30,8 @@ public class TextWindow extends AbstractWindow {
 
     @Override
     public void draw(IDisplay display) {
-        assert(width < display.getWidth());
-        assert(height < display.getHeight());
+        assert (width < display.getWidth());
+        assert (height < display.getHeight());
 
         display.fill(windowX, windowY, windowX + width - 1, windowY + height - 1, IDisplay.Color.WHITE);
 

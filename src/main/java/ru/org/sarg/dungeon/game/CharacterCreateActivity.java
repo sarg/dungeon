@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class CharacterCreateActivity extends Activity {
-    List<String> phrases = Arrays.asList(
+    final List<String> phrases = Arrays.asList(
             "Hi, Finn. Let's go explore ice kings chambers? Maybe we'll find something secret there.",
             "But Jake, what if he sees us. He will be furious. He won't us play his drumset for a week!",
             "Yeah, bro, you are right. I have an idea. Let's disguise and change our names. He'll never recognize us.",
@@ -27,7 +27,7 @@ public class CharacterCreateActivity extends Activity {
 
             "Yeah, sure. I have some costumes since last party. Take your choice:",
             Arrays.asList(Player.Race.values()).stream()
-                    .map(r -> " - " + r.name() + "(" + r.name().substring(0,1).toLowerCase() + ")")
+                    .map(r -> " - " + r.name() + "(" + r.name().substring(0, 1).toLowerCase() + ")")
                     .collect(Collectors.joining("\n")),
             "%race",
 

@@ -20,12 +20,6 @@ public class MenuActivity extends Activity {
         super(display);
     }
 
-    /*
-    New -> Character creation dialog -> Game
-    Load -> List of saves -> Select -> Game
-    Quit -> clean up and exit
-     */
-
     public void onKeyDown(int key) {
         if (isLoading())
             loadActivity.onKeyDown(key);

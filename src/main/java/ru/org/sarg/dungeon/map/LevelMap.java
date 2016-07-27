@@ -60,8 +60,6 @@ public class LevelMap implements Serializable {
             cross(map);
         }
 
-//        detectWallDirections(map);
-
         for (int i = 0; i < 20; i++) {
             int x = MathUtil.rand(map.width - 1);
             int y = MathUtil.rand(map.height - 1);
@@ -74,42 +72,6 @@ public class LevelMap implements Serializable {
         }
 
         return map;
-    }
-
-    private static void detectWallDirections(LevelMap map) {
-        for (int x = 0; x < map.width; x++) {
-            for (int y = 0; y < map.height; y++) {
-                if (map.get(x, y) == 0) continue;
-                int vNeigbours = 0;
-                int hNeigbours = 0;
-                if (y > 0 && map.get(x, y - 1) > 0)
-                    vNeigbours++;
-
-                if (y < map.height - 2 && map.get(x, y + 1) > 0)
-                    vNeigbours++;
-
-                if (x > 0 && map.get(x - 1, y) > 0)
-                    hNeigbours++;
-
-                if (x < map.width - 2 && map.get(x + 1, y) > 0)
-                    hNeigbours++;
-
-                if (vNeigbours > 0 && hNeigbours > 0) {
-                    map.terrain[y * map.width + x] = 1;
-                } else if (vNeigbours > 0) {
-                    map.terrain[y * map.width + x] = 2;
-                } else if (hNeigbours > 0) {
-                    map.terrain[y * map.width + x] = 3;
-                }
-            }
-        }
-    }
-
-    private static void t(LevelMap map, int row) {
-        map.terrain[0 + row * map.width] = 1;
-        map.terrain[1 + row * map.width] = 1;
-        map.terrain[map.width - 2 + row * map.width] = 1;
-        map.terrain[map.width - 1 + row * map.width] = 1;
     }
 
     public int getWidth() {
@@ -201,20 +163,4 @@ public class LevelMap implements Serializable {
             return LevelMap.this.get(x + vx, y + vy);
         }
     }
-
-/*    public byte[] view(int x, int y, int w, int h) {
-        assert (x + w < width);
-        assert (y + h < height);
-
-        byte[] ret = new byte[w * h];
-        int ptr = y * width + x;
-        int retPtr = 0;
-        while (h-- > 0) {
-            System.arraycopy(terrain, ptr, ret, retPtr, w);
-            retPtr += w;
-            ptr += width;
-        }
-
-        return ret;
-    }*/
 }

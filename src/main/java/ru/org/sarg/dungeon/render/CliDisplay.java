@@ -1,11 +1,14 @@
 package ru.org.sarg.dungeon.render;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class CliDisplay implements IDisplay {
 
     public static final String ANSI_CLEAR_SCREEN = "\u001B[2J";
     public static final String ANSI_MOVE_TOP_LEFT = "\u001B[0;0H";
+
+    private static boolean isWindows = System.getProperty("os.name").startsWith("Windows");
 
     private final int height;
     private final int width;
@@ -117,8 +120,18 @@ public class CliDisplay implements IDisplay {
 
         lastCrc = newCrc;
 
-        System.out.print(ANSI_CLEAR_SCREEN);
-        System.out.print(ANSI_MOVE_TOP_LEFT);
+        if (isWindows) {
+            try {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Unhandled exception", e);
+            } catch (IOException e) {
+                throw new RuntimeException("Unhandled exception", e);
+            }
+        } else {
+            System.out.print(ANSI_CLEAR_SCREEN);
+            System.out.print(ANSI_MOVE_TOP_LEFT);
+        }
 
         int ptr = 0;
         while (ptr < width * height) {

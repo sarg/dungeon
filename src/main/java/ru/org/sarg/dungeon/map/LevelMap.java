@@ -4,12 +4,13 @@ import ru.org.sarg.dungeon.MathUtil;
 import ru.org.sarg.dungeon.game.Direction;
 import ru.org.sarg.dungeon.game.objects.Penguin;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LevelMap {
+public class LevelMap implements Serializable {
     final int width;
     final int height;
 

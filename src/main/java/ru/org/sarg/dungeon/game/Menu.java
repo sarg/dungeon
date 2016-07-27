@@ -9,6 +9,12 @@ public class Menu {
     public static class Option {
         public String title;
         public Runnable action;
+        public Supplier<Menu> next;
+
+        public Option(String title, Runnable action, Supplier<Menu> next) {
+            this(title, action);
+            this.next = next;
+        }
 
         public Option(String title, Runnable action) {
             this.title = title;
@@ -17,15 +23,8 @@ public class Menu {
     }
 
     public List<Menu.Option> choices = new ArrayList<>();
-    public Menu parent;
-    public Supplier<Menu> next;
 
     public int size() {
         return choices.size();
-    }
-
-    public Menu(Menu parent, Supplier<Menu> next) {
-        this.parent = parent;
-        this.next = next;
     }
 }

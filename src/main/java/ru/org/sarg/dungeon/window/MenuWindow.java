@@ -30,16 +30,12 @@ public class MenuWindow extends TextWindow {
                 index = (index + 1) % menu.size();
                 break;
 
-            case 'q':
-                if (menu.parent == null)
-                    return;
-                break;
-
             case KeyEvent.VK_ENTER:
-                if (menu.next != null)
-                    setMenu(menu.next.get());
+                Menu.Option option = menu.choices.get(index);
+                if (option.next != null)
+                    setMenu(option.next.get());
                 else
-                    menu.choices.get(index).action.run();
+                    option.action.run();
                 break;
         }
     }

@@ -1,6 +1,8 @@
 package ru.org.sarg.dungeon.map;
 
-public abstract class GameObject {
+import java.io.Serializable;
+
+public abstract class GameObject implements Serializable {
     protected int x;
     protected int y;
     private char c;

@@ -2,14 +2,13 @@ package ru.org.sarg.dungeon.game;
 
 import ru.org.sarg.dungeon.Dungeon;
 import ru.org.sarg.dungeon.render.IDisplay;
-import ru.org.sarg.dungeon.window.Input;
 import ru.org.sarg.dungeon.window.MenuWindow;
-import ru.org.sarg.dungeon.window.TextWindow;
 
-import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.regex.Pattern;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 public class MenuActivity extends Activity {
     public class LoadActivity extends Activity {
@@ -25,8 +24,20 @@ public class MenuActivity extends Activity {
 
         @Override
         public void start() {
-            Menu menu = new Menu(null, null);
-            menu.choices.add(new Menu.Option("asd", () -> setLoading(false)));
+            Menu menu = new Menu();
+
+            Path cwd = FileSystems.getDefault().getPath("");
+            try {
+                menu.choices.addAll(Files.find(cwd, 1, (path, attr) -> String.valueOf(path).endsWith(".sav"))
+                        .map(f -> new Menu.Option(f.getFileName().toString(), () -> GameActivity.INSTANCE.loadSaveFile(f)))
+                        .collect(Collectors.toList())
+                );
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (menu.choices.isEmpty())
+                menu.choices.add(new Menu.Option("NO SAVES", () -> setLoading(false)));
 
             loadMenuWindow = new MenuWindow();
             loadMenuWindow.setMenu(menu);
@@ -60,7 +71,7 @@ public class MenuActivity extends Activity {
 
     @Override
     public void start() {
-        Menu current = new Menu(null, null);
+        Menu current = new Menu();
         current.choices.add(new Menu.Option("New", () -> Dungeon.INSTANCE.setActivity(new CharacterCreateActivity(display))));
         current.choices.add(new Menu.Option("Load", () -> setLoading(true)));
         current.choices.add(new Menu.Option("Quit", () -> Dungeon.INSTANCE.quit()));
@@ -74,7 +85,7 @@ public class MenuActivity extends Activity {
     }
 
     private void setLoading(boolean l) {
-        assert(isLoading() != l);
+        assert (isLoading() != l);
 
         if (l) {
             loadActivity = new LoadActivity(display);

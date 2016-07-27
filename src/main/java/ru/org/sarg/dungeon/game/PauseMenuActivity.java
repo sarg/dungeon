@@ -7,6 +7,8 @@ import ru.org.sarg.dungeon.window.MenuWindow;
 import ru.org.sarg.dungeon.window.TextWindow;
 
 import java.awt.event.KeyEvent;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.regex.Pattern;
 
 public class PauseMenuActivity extends Activity {
@@ -37,8 +39,12 @@ public class PauseMenuActivity extends Activity {
             int y = display.getHeight() / 4;
             dialog = new TextWindow(x, y, display.getWidth() - 1 - x, display.getHeight() - 1 - x);
 
-            dialog.setText("Save your adventure in " + GameActivity.INSTANCE.player.name + ".sav? (y/n)\n");
-            input = new Input(5, Pattern.compile("[yn]"), () -> {
+            Path savePath = FileSystems.getDefault().getPath(GameActivity.INSTANCE.player.name + ".sav");
+            dialog.setText("Save your adventure in " + savePath.toString() + "? (y/n)\n");
+            input = new Input(1, Pattern.compile("[yn]"), () -> {
+                if (input.value().equals("y")) {
+                    GameActivity.INSTANCE.saveToFile(savePath);
+                }
                 setSaving(false);
             });
         }
@@ -67,7 +73,7 @@ public class PauseMenuActivity extends Activity {
 
     @Override
     public void start() {
-        Menu current = new Menu(null, null);
+        Menu current = new Menu();
         current.choices.add(new Menu.Option("Resume", () -> GameActivity.INSTANCE.setPaused(false)));
         current.choices.add(new Menu.Option("Save", () -> setSaving(true)));
         current.choices.add(new Menu.Option("Quit", () -> Dungeon.INSTANCE.quit()));

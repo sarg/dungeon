@@ -108,7 +108,7 @@ public class CharacterCreateActivity extends Activity {
     }
 
     private void gogogo() {
-        GameActivity.INSTANCE.setPlayer(player.build());
+        GameActivity.INSTANCE.newGame(player.build());
         Dungeon.INSTANCE.setActivity(GameActivity.INSTANCE);
     }
 

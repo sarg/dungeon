@@ -1,5 +1,6 @@
 package ru.org.sarg.dungeon.game;
 
+import ru.org.sarg.dungeon.Dungeon;
 import ru.org.sarg.dungeon.MathUtil;
 import ru.org.sarg.dungeon.game.objects.DeadPenguin;
 import ru.org.sarg.dungeon.game.objects.Penguin;
@@ -9,13 +10,15 @@ import ru.org.sarg.dungeon.render.IDisplay;
 import ru.org.sarg.dungeon.window.MapWindow;
 import ru.org.sarg.dungeon.window.TextWindow;
 
+import java.io.*;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
 public class GameActivity extends Activity {
-    public static GameActivity INSTANCE;
-
+    private static final long SAVE_VERSION = 1L;
     private static final double MAP_SIZE_RATIO = 0.8;
+    public static GameActivity INSTANCE;
     MapWindow mapWindow;
     LevelMap map;
     TextWindow stats;
@@ -45,8 +48,12 @@ public class GameActivity extends Activity {
         }
     }
 
+    public boolean isPaused() {
+        return pauseMenuActivity != null;
+    }
+
     public void setPaused(boolean p) {
-        assert(isPaused() != p);
+        assert (isPaused() != p);
 
         if (p) {
             pauseMenuActivity = new PauseMenuActivity(display);
@@ -56,8 +63,12 @@ public class GameActivity extends Activity {
         }
     }
 
+    public boolean isFighting() {
+        return fightActivity != null;
+    }
+
     public void setFighting(GameObject f) {
-        assert(isFighting() || f == null);
+        assert (isFighting() || f == null);
 
         if (f != null) {
             fightActivity = new FightActivity(display, (win) -> {
@@ -83,14 +94,6 @@ public class GameActivity extends Activity {
             });
             fightActivity.start();
         }
-    }
-
-    public boolean isPaused() {
-        return pauseMenuActivity != null;
-    }
-
-    public boolean isFighting() {
-        return fightActivity != null;
     }
 
     @Override
@@ -143,18 +146,48 @@ public class GameActivity extends Activity {
             pauseMenuActivity.draw();
     }
 
+    @Override
     public void start() {
-        mapWindow = new MapWindow(0, 0, (int)(display.getWidth() * 0.8), (int)(Math.round(display.getHeight() * MAP_SIZE_RATIO)));
-        map = LevelMap.RANDOM();
-        map.getObjects().add(player);
-        mapWindow.setMap(map);
-
+        mapWindow = new MapWindow(0, 0, (int) (display.getWidth() * 0.8), (int) (Math.round(display.getHeight() * MAP_SIZE_RATIO)));
         stats = new TextWindow(0, mapWindow.getHeight(), display.getWidth(),
                 display.getHeight() - mapWindow.getHeight() - 1);
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void newGame(Player p) {
+        this.player = p;
+
+        map = LevelMap.RANDOM();
+        map.getObjects().add(p);
+        mapWindow.setMap(map);
     }
 
+    public void loadSaveFile(Path path) {
+        Dungeon.INSTANCE.setActivity(this);
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path.toFile()))) {
+            long version = ois.readLong();
+
+            if (version != SAVE_VERSION) {
+                // FIXME: show alert
+                throw new RuntimeException("Unknown save format");
+            }
+
+            map = (LevelMap) ois.readObject();
+            mapWindow.setMap(map);
+            player = (Player) map.getObjects().stream().filter(c -> c.getClass().equals(Player.class)).findFirst().get();
+        } catch (IOException | ClassNotFoundException e) {
+            // FIXME: show alert
+            throw new RuntimeException("Unhandled exception", e);
+        }
+    }
+
+    public void saveToFile(Path path) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path.toFile()))) {
+            oos.writeLong(1); // VERSION
+            oos.writeObject(map);
+        } catch (IOException e) {
+            // FIXME: show alert
+            throw new RuntimeException("Unhandled exception", e);
+        }
+    }
 }

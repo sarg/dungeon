@@ -34,7 +34,7 @@ public class CharacterCreateActivity extends Activity {
             "%race",
 
             "Okay, suit yourself. It's adventure time!",
-            "PS, I heard there will be a lot of penguins, and they like to tickle intruders until they retreat. Be aware and prepare to tickle back!",
+            "PS, I heard there will be a lot of penguins, and they like to play rock-scissors-paper. Be prepared!",
             "%enter"
     );
 

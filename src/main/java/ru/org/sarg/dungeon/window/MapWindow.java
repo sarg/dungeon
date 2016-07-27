@@ -6,7 +6,6 @@ import ru.org.sarg.dungeon.map.LevelMap;
 import ru.org.sarg.dungeon.render.IDisplay;
 
 public class MapWindow extends AbstractWindow {
-    public static final int BORDER = 1;
     public static final int SCROLL_THRESHOLD = 15;
 
     int viewPortX;
@@ -17,6 +16,7 @@ public class MapWindow extends AbstractWindow {
 
     public MapWindow(int windowX, int windowY, int width, int height) {
         super(windowX, windowY, width, height);
+        setBorder(1);
     }
 
     public void setMap(LevelMap map) {
@@ -26,7 +26,7 @@ public class MapWindow extends AbstractWindow {
     private char tileConverter(byte t) {
         switch (t) {
             case 0:
-                return '.';
+                return ' ';
             case 1:
                 return '\u25a0'; // BOX
             default:
@@ -41,12 +41,12 @@ public class MapWindow extends AbstractWindow {
         LevelMap.MapView view = getView();
         for (int y = 0; y < view.height(); y++) {
             for (int x = 0; x < view.width(); x++) {
-                display.draw(windowX + BORDER + x, windowY + BORDER + y, tileConverter(view.get(x, y)));
+                display.draw(windowX + getBorder() + x, windowY + getBorder() + y, tileConverter(view.get(x, y)), IDisplay.Color.RED);
             }
         }
 
         for (GameObject object : view.getObjects()) {
-            display.draw(view.viewX(object.getX()) + BORDER, view.viewY(object.getY()) + BORDER, object.getC());
+            display.draw(view.viewX(object.getX()) + getBorder(), view.viewY(object.getY()) + getBorder(), object.getC(), IDisplay.Color.WHITE);
         }
 
         currentView = null; // invalidate
@@ -54,7 +54,7 @@ public class MapWindow extends AbstractWindow {
 
     private LevelMap.MapView getView() {
         if (currentView == null)
-            currentView = map.view(viewPortX, viewPortY, width - 2 * BORDER, height - 2 * BORDER);
+            currentView = map.view(viewPortX, viewPortY, width - 2 * getBorder(), height - 2 * getBorder());
 
         return currentView;
     }
@@ -70,8 +70,8 @@ public class MapWindow extends AbstractWindow {
     }
 
     public void scroll(Direction s) {
-        int newViewPortX = adjust(viewPortX + s.dx, 0, map.getWidth() - (width - 2 * BORDER));
-        int newViewPortY = adjust(viewPortY + s.dy, 0, map.getHeight() - (height - 2 * BORDER));
+        int newViewPortX = adjust(viewPortX + s.dx, 0, map.getWidth() - (width - 2 * getBorder()));
+        int newViewPortY = adjust(viewPortY + s.dy, 0, map.getHeight() - (height - 2 * getBorder()));
 
         if (newViewPortX != viewPortX || newViewPortY != viewPortY)
             currentView = null; // invalidate after scroll

@@ -1,5 +1,7 @@
 package ru.org.sarg.dungeon.map;
 
+import ru.org.sarg.dungeon.game.objects.Penguin;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -43,6 +45,17 @@ public class LevelMap {
         t(map, map.height-1);
         t(map, map.height-2);
 
+        for (int i = 0; i < 20; i++) {
+            int x = (int) Math.round(Math.random() * (map.width-1));
+            int y = (int) Math.round(Math.random() * (map.height-1));
+
+            Penguin penguin = new Penguin();
+            penguin.setX(x);
+            penguin.setY(y);
+
+            map.getObjects().add(penguin);
+        }
+
         return map;
     }
 
@@ -54,25 +67,25 @@ public class LevelMap {
     }
 
     public class MapView {
-        final int vx, vy, vw, vh;
+        final int vx, vy, viewWidth, viewHeight;
 
         private boolean inView(GameObject obj) {
             int x = obj.getX();
             int y = obj.getY();
 
-            if (x >= vx && x < vx + vw) {
-                if (y >= vy && y < vy + vw) {
+            if (x >= vx && x < vx + viewWidth) {
+                if (y >= vy && y < vy + viewHeight) {
                     return true;
                 }
             }
             return false;
         }
 
-        private MapView(int vx, int vy, int vw, int vh) {
+        private MapView(int vx, int vy, int viewWidth, int viewHeight) {
             this.vx = vx;
             this.vy = vy;
-            this.vw = vw;
-            this.vh = vh;
+            this.viewWidth = viewWidth;
+            this.viewHeight = viewHeight;
 
             objectsView = objects.stream().filter(this::inView)
                     .collect(Collectors.toList());
@@ -87,11 +100,11 @@ public class LevelMap {
         }
 
         public int width() {
-            return vw;
+            return viewWidth;
         }
 
         public int height() {
-            return vh;
+            return viewHeight;
         }
 
         private Collection<GameObject> objectsView;

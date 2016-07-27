@@ -47,7 +47,7 @@ public class TextWindow extends AbstractWindow {
                 y++;
                 x = delta;
             } else {
-                display.draw(windowX + x++, windowY + y, c);
+                display.draw(windowX + x++, windowY + y, c, IDisplay.Color.WHITE);
             }
 
             if (x >= width - delta) {

@@ -21,9 +21,9 @@ public class CliDisplayTest {
     public void testAll() {
         CliDisplay ds = new CliDisplay(20, 20);
 
-        ds.draw(3, 3, 'О');
-        ds.draw(3, 5, 'О');
-        ds.rect(0, 0, ds.getWidth() - 1, ds.getHeight() - 1);
+        ds.draw(3, 3, 'О', IDisplay.Color.WHITE);
+        ds.draw(3, 5, 'О', IDisplay.Color.WHITE);
+        ds.rect(0, 0, ds.getWidth() - 1, ds.getHeight() - 1, IDisplay.Color.WHITE);
         ds.flush();
     }
 

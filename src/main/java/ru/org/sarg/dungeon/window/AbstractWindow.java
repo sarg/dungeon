@@ -18,7 +18,7 @@ public abstract class AbstractWindow {
     }
 
     public void draw(IDisplay display) {
-        display.rect(windowX, windowY, windowX + width - 1, windowY + height - 1);
+        display.rect(windowX, windowY, windowX + width - 1, windowY + height - 1, IDisplay.Color.WHITE);
     }
 
     public int getWidth() {

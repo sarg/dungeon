@@ -1,7 +1,6 @@
 package ru.org.sarg.dungeon.render;
 
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class CliDisplay implements IDisplay {
 
@@ -34,16 +33,6 @@ public class CliDisplay implements IDisplay {
         return y * width + x;
     }
 
-    @Override
-    public void text(int x, int y, Color color, CharSequence txt) {
-        AtomicInteger ptr = new AtomicInteger(bufPtr(x, y));
-        int safeLength = getSafeLength(x, txt);
-
-        txt.subSequence(0, safeLength).chars().forEach(
-                c -> buffer[ptr.getAndIncrement()] = (char) c
-        );
-    }
-
     int getSafeLength(int x, CharSequence txt) {
         return x + txt.length() >= width
                 ? width - x
@@ -51,7 +40,7 @@ public class CliDisplay implements IDisplay {
     }
 
     @Override
-    public void draw(int x, int y, char symbol) {
+    public void draw(int x, int y, char symbol, Color color) {
         buffer[bufPtr(x, y)] = symbol;
     }
 
@@ -71,7 +60,7 @@ public class CliDisplay implements IDisplay {
     }
 
     @Override
-    public void rect(int x1, int y1, int x2, int y2) {
+    public void rect(int x1, int y1, int x2, int y2, Color color) {
         int tmp;
         if (x1 > x2) {
             tmp = x1;
@@ -91,10 +80,10 @@ public class CliDisplay implements IDisplay {
         hline(x1 + 1, x2 - 1, y1);
         hline(x1 + 1, x2 - 1, y2);
 
-        draw(x1, y1, '+');
-        draw(x2, y1, '+');
-        draw(x1, y2, '+');
-        draw(x2, y2, '+');
+        draw(x1, y1, '+', color);
+        draw(x2, y1, '+', color);
+        draw(x1, y2, '+', color);
+        draw(x2, y2, '+', color);
     }
 
     @Override
@@ -115,7 +104,7 @@ public class CliDisplay implements IDisplay {
         while (x1 <= x2) {
             int y = y1;
             while (y <= y2) {
-                draw(x1, y++, ' ');
+                draw(x1, y++, ' ', color);
             }
             x1++;
         }

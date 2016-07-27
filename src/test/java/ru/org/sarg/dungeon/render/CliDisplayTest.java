@@ -1,7 +1,7 @@
 package ru.org.sarg.dungeon.render;
 
 import org.junit.Test;
-import ru.org.sarg.dungeon.game.MapWindow;
+import ru.org.sarg.dungeon.window.MapWindow;
 import ru.org.sarg.dungeon.map.LevelMap;
 
 import static org.junit.Assert.*;

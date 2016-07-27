@@ -2,6 +2,8 @@ package ru.org.sarg.dungeon.game;
 
 import ru.org.sarg.dungeon.map.LevelMap;
 import ru.org.sarg.dungeon.render.IDisplay;
+import ru.org.sarg.dungeon.window.MapWindow;
+import ru.org.sarg.dungeon.window.TextWindow;
 
 public class GameActivity extends Activity {
     public static GameActivity INSTANCE;
@@ -37,6 +39,10 @@ public class GameActivity extends Activity {
 
             case 'l':
                 move(Direction.RIGHT);
+                break;
+
+            case 'q':
+
                 break;
         }
     }

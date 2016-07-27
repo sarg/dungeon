@@ -1,16 +1,14 @@
-package ru.org.sarg.dungeon.game;
+package ru.org.sarg.dungeon.window;
 
 import ru.org.sarg.dungeon.render.IDisplay;
-import ru.org.sarg.dungeon.render.IWindow;
 
-public class TextWindow extends IWindow {
-    public static final int PADDING = 1;
-    public static final int BORDER = 1;
-
+public class TextWindow extends AbstractWindow {
     StringBuffer text = new StringBuffer();
 
     public TextWindow(int windowX, int windowY, int width, int height) {
         super(windowX, windowY, width, height);
+        setPadding(1);
+        setBorder(1);
     }
 
     public void setText(String text) {
@@ -33,24 +31,25 @@ public class TextWindow extends IWindow {
     public void draw(IDisplay display) {
         super.draw(display);
 
-        int x = BORDER + PADDING;
-        int y = BORDER + PADDING;
+        int delta = getBorder() + getPadding();
+        int x = delta;
+        int y = delta;
 
         for (int i = 0; i<text.length(); i++) {
             char c = text.charAt(i);
             if (c == '\n') {
                 y++;
-                x = BORDER + PADDING;
+                x = delta;
             } else {
                 display.draw(windowX + x++, windowY + y, c);
             }
 
-            if (x >= width - BORDER - PADDING) {
-                x = BORDER + PADDING;
+            if (x >= width - delta) {
+                x = delta;
                 y++;
             }
 
-            if (y >= height - BORDER - PADDING)
+            if (y >= height - delta)
                 break;
         }
     }

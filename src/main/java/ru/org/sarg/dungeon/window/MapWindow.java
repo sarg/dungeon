@@ -1,11 +1,11 @@
-package ru.org.sarg.dungeon.game;
+package ru.org.sarg.dungeon.window;
 
+import ru.org.sarg.dungeon.game.Direction;
 import ru.org.sarg.dungeon.map.GameObject;
 import ru.org.sarg.dungeon.map.LevelMap;
 import ru.org.sarg.dungeon.render.IDisplay;
-import ru.org.sarg.dungeon.render.IWindow;
 
-public class MapWindow extends IWindow {
+public class MapWindow extends AbstractWindow {
     public static final int BORDER = 1;
     public static final int SCROLL_THRESHOLD = 15;
 

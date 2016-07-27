@@ -2,6 +2,7 @@ package ru.org.sarg.dungeon.game;
 
 import ru.org.sarg.dungeon.Dungeon;
 import ru.org.sarg.dungeon.render.IDisplay;
+import ru.org.sarg.dungeon.window.TextWindow;
 
 import java.awt.event.KeyEvent;
 import java.lang.reflect.InvocationTargetException;

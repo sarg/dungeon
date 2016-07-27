@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 public class PauseMenuActivity extends Activity {
     MenuWindow menuWindow;
     SaveActivity saveActivity;
+
     public PauseMenuActivity(IDisplay display) {
         super(display);
     }
@@ -85,12 +86,12 @@ public class PauseMenuActivity extends Activity {
 
         @Override
         public void start() {
-            int x = display.getWidth() / 4;
-            int y = display.getHeight() / 4;
-            dialog = new TextWindow(x, y, display.getWidth() - 1 - x, display.getHeight() - 1 - x);
+            int x = display.getWidth() / 5;
+            int y = display.getHeight() / 5;
+            dialog = new TextWindow(x, y, display.getWidth() - x * 2, display.getHeight() - y * 2);
 
-            Path savePath = FileSystems.getDefault().getPath(GameActivity.INSTANCE.player.name + ".sav");
-            dialog.setText("Save your adventure in " + savePath.toString() + "? (y/n)\n");
+            Path savePath = FileSystems.getDefault().getPath(GameActivity.INSTANCE.player.getName() + ".sav");
+            dialog.setText("Save your adventure in " + savePath.toString() + "? (y/n)");
             input = new Input(1, Pattern.compile("[yn]"), () -> {
                 if (input.value().equals("y")) {
                     GameActivity.INSTANCE.saveToFile(savePath);

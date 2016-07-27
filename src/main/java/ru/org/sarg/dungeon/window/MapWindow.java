@@ -1,7 +1,7 @@
 package ru.org.sarg.dungeon.window;
 
-import ru.org.sarg.dungeon.game.Direction;
-import ru.org.sarg.dungeon.map.GameObject;
+import ru.org.sarg.dungeon.Direction;
+import ru.org.sarg.dungeon.game.objects.GameObject;
 import ru.org.sarg.dungeon.map.LevelMap;
 import ru.org.sarg.dungeon.render.IDisplay;
 

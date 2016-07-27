@@ -1,4 +1,4 @@
-package ru.org.sarg.dungeon.game;
+package ru.org.sarg.dungeon;
 
 public enum Direction {
     UP(0, -1),

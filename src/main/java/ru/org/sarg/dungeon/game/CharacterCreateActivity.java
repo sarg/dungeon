@@ -1,7 +1,9 @@
 package ru.org.sarg.dungeon.game;
 
 import ru.org.sarg.dungeon.Dungeon;
+import ru.org.sarg.dungeon.game.objects.Player;
 import ru.org.sarg.dungeon.render.IDisplay;
+import ru.org.sarg.dungeon.utils.FpsCounter;
 import ru.org.sarg.dungeon.window.Input;
 import ru.org.sarg.dungeon.window.TextWindow;
 

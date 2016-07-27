@@ -1,7 +1,7 @@
 package ru.org.sarg.dungeon;
 
 import ru.org.sarg.dungeon.game.Activity;
-import ru.org.sarg.dungeon.game.FpsCounter;
+import ru.org.sarg.dungeon.utils.FpsCounter;
 import ru.org.sarg.dungeon.game.GameActivity;
 import ru.org.sarg.dungeon.game.MenuActivity;
 import ru.org.sarg.dungeon.render.CliDisplay;
@@ -10,7 +10,7 @@ import ru.org.sarg.dungeon.render.IDisplay;
 import java.io.IOException;
 
 public class Dungeon {
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     public static final Dungeon INSTANCE = new Dungeon();
     private static boolean quit = false;
     public Activity activity;

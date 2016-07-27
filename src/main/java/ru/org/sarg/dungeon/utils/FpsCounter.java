@@ -1,4 +1,4 @@
-package ru.org.sarg.dungeon.game;
+package ru.org.sarg.dungeon.utils;
 
 import java.util.concurrent.TimeUnit;
 

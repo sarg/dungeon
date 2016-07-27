@@ -1,7 +1,8 @@
 package ru.org.sarg.dungeon.map;
 
-import ru.org.sarg.dungeon.MathUtil;
-import ru.org.sarg.dungeon.game.Direction;
+import ru.org.sarg.dungeon.game.objects.GameObject;
+import ru.org.sarg.dungeon.utils.MathUtil;
+import ru.org.sarg.dungeon.Direction;
 import ru.org.sarg.dungeon.game.objects.Penguin;
 
 import java.io.Serializable;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LevelMap implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     final int width;
     final int height;
 

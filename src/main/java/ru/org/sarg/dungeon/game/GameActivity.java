@@ -1,11 +1,13 @@
 package ru.org.sarg.dungeon.game;
 
 import ru.org.sarg.dungeon.Controls;
+import ru.org.sarg.dungeon.Direction;
 import ru.org.sarg.dungeon.Dungeon;
-import ru.org.sarg.dungeon.MathUtil;
+import ru.org.sarg.dungeon.game.objects.Player;
+import ru.org.sarg.dungeon.utils.MathUtil;
 import ru.org.sarg.dungeon.game.objects.DeadPenguin;
 import ru.org.sarg.dungeon.game.objects.Penguin;
-import ru.org.sarg.dungeon.map.GameObject;
+import ru.org.sarg.dungeon.game.objects.GameObject;
 import ru.org.sarg.dungeon.map.LevelMap;
 import ru.org.sarg.dungeon.render.IDisplay;
 import ru.org.sarg.dungeon.window.MapWindow;
@@ -134,7 +136,7 @@ public class GameActivity extends Activity {
 
     @Override
     public void draw() {
-        stats.setText(String.format("%s %s\nExperience: %07d", player.race.name(), player.name, player.exp));
+        stats.setText(String.format("%s %s\nExperience: %07d", player.getRace().name(), player.getName(), player.exp));
 
         mapWindow.draw(display);
         stats.draw(display);

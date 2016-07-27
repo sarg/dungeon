@@ -1,4 +1,4 @@
-package ru.org.sarg.dungeon.map;
+package ru.org.sarg.dungeon.game.objects;
 
 import java.io.Serializable;
 

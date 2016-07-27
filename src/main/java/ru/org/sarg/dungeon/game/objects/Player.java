@@ -1,8 +1,10 @@
-package ru.org.sarg.dungeon.game;
+package ru.org.sarg.dungeon.game.objects;
 
-import ru.org.sarg.dungeon.map.GameObject;
+import ru.org.sarg.dungeon.Direction;
 
 public class Player extends GameObject {
+    private static final long serialVersionUID = 1L;
+
     final String name;
     final Race race;
     public int exp;
@@ -17,22 +19,33 @@ public class Player extends GameObject {
         x += dir.dx;
         y += dir.dy;
     }
-    enum Race {
+
+    public String getName() {
+        return name;
+    }
+
+    public Race getRace() {
+        return race;
+    }
+
+    public enum Race {
         BANANA_GUARD,
         DEMON,
         FLAME_PRINCE
     }
 
     public static class Builder {
-        String name;
-        Race race;
+        public String name;
+        public Race race;
 
-        public void name(String name) {
+        public Builder name(String name) {
             this.name = name;
+            return this;
         }
 
-        public void race(Race race) {
+        public Builder race(Race race) {
             this.race = race;
+            return this;
         }
 
         public Player build() {

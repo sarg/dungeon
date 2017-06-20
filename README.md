@@ -2,19 +2,7 @@
 
 Coding Puzzle
 
-We want you to program a command line based role playing game.
-
-Here are the stories:
-- As a player I want to create a character
-- As a player I want to explore
-- As a player I want to gain experience through fighting
-- As a player I want to save and resume a game
-
-These will be the technical constraints:
-- Use Java
-- Libraries and Frameworks are only allowed for testing and build pipelines
-- Use best in industry agile engineering practices
-- Please build for the command line
+Build a RPG using only core java (no frameworks!).
 
 # Solution
 
